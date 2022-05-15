@@ -1,15 +1,40 @@
-import numpy as np
 from typing import Union, List
-from numpy import pi
 from pprint import pprint
 
+import numpy as np
+from numpy import pi
 
-def frac(number: Union[int, float]):
+Number = Union[int, float]
+
+
+def frac(number: Number):
     return 1 / number
 
 
+def input_a_number(help_text: str = "请输入一个数字", is_int: bool = False) -> Number:
+    while 1:
+        number = input(help_text + ": ")
+        try:
+            result = int(number) if is_int else float(number)
+            print()
+            return result
+        except ValueError as e:
+            print(e)
+            print("您的输入不正确，请重新输入")
+
+
+def input_a_number_list(help_text: str = "现在请输入一串数字", max_length: int = 1) -> List[Number]:
+    ls: List[Number] = []
+    print(f"{help_text}, 共需要输入{max_length}个数")
+    while 1:
+        if len(ls) == max_length:
+            return ls
+        ls.append(input_a_number(f"现在，请输入第{len(ls) + 1}个数"))
+
+
 class LayerOnCoordinateLT:
-    def __init__(self, E_l, E_t, mu_lt, G_lt):
+    def __init__(self, E_l: Number, E_t: Number, mu_lt: Number, G_lt: Number):
+        super().__init__()
         self.E_l = E_l
         self.E_t = E_t
         self.G_lt = G_lt
@@ -29,7 +54,7 @@ class LayerOnCoordinateLT:
 
 
 class LayerOnCoordinateXY(LayerOnCoordinateLT):
-    def __init__(self, E_l, E_t, mu_lt, G_lt, theta):
+    def __init__(self, E_l: Number, E_t: Number, mu_lt: Number, G_lt: Number, theta: Number):
         super(LayerOnCoordinateXY, self).__init__(E_l, E_t, mu_lt, G_lt)
 
         self.theta = theta
@@ -80,11 +105,13 @@ class LayerOnCoordinateXY(LayerOnCoordinateLT):
 
 
 class Laminate:
-    def __init__(self, E_l, E_t, mu_lt, G_lt, theta_list: List[Union[int, float]], thickness):
+    def __init__(self,
+                 E_l: Number, E_t: Number, mu_lt: Number, G_lt: Number,
+                 theta_list: List[Union[int, float]], thickness: Number):
         self.layers: List[LayerOnCoordinateXY] = [LayerOnCoordinateXY(E_l, E_t, mu_lt, G_lt, theta) for theta in theta_list]
 
         self.layer_amount = len(theta_list) / 2
-        self.theta_list = theta_list
+        self.theta_list = [theta / 180 * pi for theta in theta_list]
         self.thickness = thickness
         total_thickness = self.total_thickness = len(theta_list) * thickness
 
@@ -122,15 +149,48 @@ class Laminate:
 
     def print(self):
         pprint(self.__dict__)
-
         for index, layer in enumerate(self.layers):
             print(f"\n\n\n-----layer{index + 1}:")
             pprint(layer.__dict__)
 
+    @staticmethod
+    def transform_ndarray_property(obj):
+        for key, value in obj.__dict__.items():
+            if isinstance(value, np.ndarray):
+                obj.__setattr__(key, value.tolist())
+
+    def destructive_print(self):
+        self.transform_ndarray_property(self)
+        for layer in self.layers:
+            self.transform_ndarray_property(layer)
+        self.print()
+
 
 if __name__ == '__main__':
-    laminate = Laminate(E_l=140e9, E_t=5e9, mu_lt=0.35, G_lt=4,
-                        theta_list=[0, 0.5 * pi, 0.5 * pi, 0],
-                        thickness=10)
+    DEBUG = False
+    if DEBUG:
+        inputted_E_l = 140e9
+        inputted_E_t = 5e9
+        inputted_mu_lt = 0.35
+        inputted_G_lt = 4
+        inputted_theta_list = [0, 90, 90, 0]
+        inputted_thickness = 10
+    else:
+        inputted_E_l = input_a_number("请输入E_l(参考值: 140e9)")
+        inputted_E_t = input_a_number("请输入E_t(参考值: 5e9)")
+        inputted_mu_lt = input_a_number("请输入mu_lt(参考值: 0.35)")
+        inputted_G_lt = input_a_number("请输入G_lt(参考值: 4)")
+        inputted_layer_amount = input_a_number("请输入层合板的层数(参考值: 4)", is_int=True)
+        inputted_theta_list = input_a_number_list("请逐个输入各层板的纤维角度(参考值: 0,45,60,90)", max_length=inputted_layer_amount)
+        inputted_thickness = input_a_number("请输入单板层的厚度(0.1)")
 
-    laminate.print()
+    print("\n\n-------------\n\n")
+
+    laminate = Laminate(E_l=inputted_E_l,
+                        E_t=inputted_E_t,
+                        mu_lt=inputted_mu_lt,
+                        G_lt=inputted_G_lt,
+                        theta_list=inputted_theta_list,
+                        thickness=inputted_thickness)
+
+    laminate.destructive_print()
