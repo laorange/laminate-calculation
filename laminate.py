@@ -40,55 +40,42 @@ def transform_all_ndarray_attributes_of_obj_to_list(obj):
 
 
 class LayerOnCoordinateLT:
-    def __init__(self, E_l: Number, E_t: Number, mu_lt: Number, G_lt: Number):
+    def __init__(self, E_l: Number, E_t: Number, nu_lt: Number, G_lt: Number):
         super().__init__()
         self.E_l = E_l
         self.E_t = E_t
         self.G_lt = G_lt
-        self.mu_lt = mu_lt
-        self.mu_tl = mu_lt * E_t / E_l
+        self.nu_lt = nu_lt
+        self.nu_tl = nu_lt * E_t / E_l
 
         self.souplesse_matrix_on_coordinate_L_T = np.array([
-            [frac(self.E_l), - self.mu_lt / self.E_l, 0],
-            [- self.mu_lt / self.E_l, frac(self.E_t), 0],
+            [frac(self.E_l), - self.nu_lt / self.E_l, 0],
+            [- self.nu_lt / self.E_l, frac(self.E_t), 0],
             [0, 0, frac(self.G_lt)]
         ])
 
     def updateWithTheta(self, theta):
-        return LayerOnCoordinateXY(self.E_l, self.E_t, self.mu_lt, self.G_lt, theta)
+        return LayerOnCoordinateXY(self.E_l, self.E_t, self.nu_lt, self.G_lt, theta)
 
 
 class LayerOnCoordinateXY(LayerOnCoordinateLT):
-    def __init__(self, E_l: Number, E_t: Number, mu_lt: Number, G_lt: Number, theta: Number):
-        super(LayerOnCoordinateXY, self).__init__(E_l, E_t, mu_lt, G_lt)
+    def __init__(self, E_l: Number, E_t: Number, nu_lt: Number, G_lt: Number, theta: Number):
+        super(LayerOnCoordinateXY, self).__init__(E_l, E_t, nu_lt, G_lt)
 
         self.theta = theta
         c = self.cos_theta = np.cos(self.theta)
         s = self.sin_theta = np.sin(self.theta)
 
-        hat_E_l = self.hat_E_l = self.E_l / (1 - self.mu_lt * self.mu_tl)
-        hat_E_t = self.hat_E_t = self.E_t / (1 - self.mu_lt * self.mu_tl)
+        hat_E_l = self.hat_E_l = self.E_l / (1 - self.nu_lt * self.nu_tl)
+        hat_E_t = self.hat_E_t = self.E_t / (1 - self.nu_lt * self.nu_tl)
+        nu_tl = self.nu_tl
 
-        # localization
-        mu_tl = self.mu_tl
-        frac_mu_lt__E_t = self.mu_lt / self.E_l
-
-        hat_E11 = self.hat_E11 = c ** 4 * hat_E_l + s ** 4 * hat_E_t + 2 * (c * s) ** 2 * (mu_tl * hat_E_l + 2 * G_lt)
-        hat_E22 = self.hat_E22 = s ** 4 * hat_E_l + c ** 4 * hat_E_t + 2 * (c * s) ** 2 * (mu_tl * hat_E_l + 2 * G_lt)
-        hat_E33 = self.hat_E33 = (c * s) ** 2 * (hat_E_l + hat_E_t - 2 * mu_tl * hat_E_l) + (c ** 2 - s ** 2) ** 2 * G_lt
-        hat_E12 = self.hat_E12 = (c * s) ** 2 * (hat_E_l + hat_E_t - 4 * G_lt) + (c ** 4 + s ** 4) * mu_tl * hat_E_l
-        hat_E13 = self.hat_E13 = -(c * s) * (c ** 2 * hat_E_l - s ** 2 * hat_E_t - (c ** 2 - s ** 2) * mu_tl * hat_E_l + 2 * G_lt)
-        hat_E23 = self.hat_E23 = -(c * s) * (s ** 2 * hat_E_l - c ** 2 * hat_E_t - (c ** 2 - s ** 2) * mu_tl * hat_E_l + 2 * G_lt)
-        hat_E21 = self.hat_E21 = self.hat_E12
-        hat_E31 = self.hat_E31 = self.hat_E13
-        hat_E32 = self.hat_E32 = self.hat_E23
-
-        self.E_x = E_x = 1 / (c ** 4 / E_l + s ** 4 / E_t + (c * s) ** 2 * (frac(G_lt) - 2 * frac_mu_lt__E_t))
-        self.E_y = E_y = 1 / (s ** 4 / E_l + c ** 4 / E_t + (c * s) ** 2 * (frac(G_lt) - 2 * frac_mu_lt__E_t))
-        self.G_xy = G_xy = 1 / ((4 * (c * s) ** 2) * (frac(E_l) + frac(E_t) + 2 * frac_mu_lt__E_t) + (c ** 2 - s ** 2) ** 2 / G_lt)
-        self.mu_yx = mu_yx = (frac_mu_lt__E_t * (c ** 4 + s ** 4) - (c * s) ** 2 * (frac(E_l) + frac(E_t) - frac(G_lt))) * E_y
-        self.eta_xy = eta_xy = -2 * c * s * (c ** 2 / E_l - s ** 2 / E_t + (c ** 2 - s ** 2) * (frac_mu_lt__E_t - 0.5 * frac(G_lt))) * G_xy
-        self.mu_xy = mu_xy = -2 * c * s * (s ** 2 / E_l - c ** 2 / E_t + (c ** 2 - s ** 2) * (frac_mu_lt__E_t - 0.5 * frac(G_lt))) * G_xy
+        self.E_x = E_x = 1 / (c ** 4 / E_l + s ** 4 / E_t + (c * s) ** 2 * (frac(G_lt) - 2 * nu_lt / E_l))
+        self.E_y = E_y = 1 / (s ** 4 / E_l + c ** 4 / E_t + (c * s) ** 2 * (frac(G_lt) - 2 * nu_lt / E_l))
+        self.G_xy = G_xy = 1 / ((4 * (c * s) ** 2) * (frac(E_l) + frac(E_t) + 2 * nu_lt / E_l) + (c ** 2 - s ** 2) ** 2 / G_lt)
+        self.mu_yx = mu_yx = (nu_lt / E_l * (c ** 4 + s ** 4) - (c * s) ** 2 * (frac(E_l) + frac(E_t) - frac(G_lt))) * E_y
+        self.eta_xy = eta_xy = -2 * c * s * (c ** 2 / E_l - s ** 2 / E_t + (c ** 2 - s ** 2) * (nu_lt / E_l - 0.5 * frac(G_lt))) * G_xy
+        self.mu_xy = mu_xy = -2 * c * s * (s ** 2 / E_l - c ** 2 / E_t + (c ** 2 - s ** 2) * (nu_lt / E_l - 0.5 * frac(G_lt))) * G_xy
 
         self.souplesse_matrix_on_coordinate_X_Y = np.array([
             [frac(E_x), -mu_yx / E_y, eta_xy / G_xy],
@@ -96,27 +83,28 @@ class LayerOnCoordinateXY(LayerOnCoordinateLT):
             [eta_xy / G_xy, mu_xy / G_xy, frac(self.G_lt)]
         ])
 
+        T = self.T = np.array([
+            [c ** 2, s ** 2, -2 * c * s],
+            [s ** 2, c ** 2, 2 * c * s],
+            [c * s, -c * s, c ** 2 - s ** 2]
+        ])
+
         self.raideur_matrix_on_coordinate_L_T = np.array([
-            [hat_E_l, self.mu_tl * hat_E_l, 0],
-            [hat_E_t * self.mu_lt, hat_E_t, 0],
+            [hat_E_l, nu_tl * hat_E_l, 0],
+            [hat_E_t * nu_lt, hat_E_t, 0],
             [0, 0, self.G_lt]
         ])
 
-        self.raideur_matrix_on_coordinate_X_Y = np.array([
-            [hat_E11, hat_E12, hat_E13],
-            [hat_E21, hat_E22, hat_E23],
-            [hat_E31, hat_E32, hat_E33]
-        ])
+        self.raideur_matrix_on_coordinate_X_Y = np.dot(np.dot(T, self.raideur_matrix_on_coordinate_L_T), T.T)  # np.dot 才是矩阵乘法
 
 
 class Laminate:
     def __init__(self,
-                 E_l: Number, E_t: Number, mu_lt: Number, G_lt: Number,
+                 E_l: Number, E_t: Number, nu_lt: Number, G_lt: Number,
                  theta_list: List[Union[int, float]], thickness: Number):
-        self.layers: List[LayerOnCoordinateXY] = [LayerOnCoordinateXY(E_l, E_t, mu_lt, G_lt, theta) for theta in theta_list]
+        theta_list = self.theta_list = [theta / 180 * pi for theta in theta_list]
 
-        self.layer_amount = len(theta_list) / 2
-        self.theta_list = [theta / 180 * pi for theta in theta_list]
+        self.layers: List[LayerOnCoordinateXY] = [LayerOnCoordinateXY(E_l, E_t, nu_lt, G_lt, theta) for theta in theta_list]
         self.thickness = thickness
         total_thickness = self.total_thickness = len(theta_list) * thickness
 
@@ -127,27 +115,34 @@ class Laminate:
             Z_k = self.get_Z_k(layer_index + 1)
             Z_k_minus_1 = self.get_Z_k(layer_index)
             self.A += thickness * layer.raideur_matrix_on_coordinate_X_Y
-            self.B += layer.raideur_matrix_on_coordinate_X_Y * (Z_k ** 2 - Z_k_minus_1 ** 2) / 2
-            self.B += layer.raideur_matrix_on_coordinate_X_Y * (Z_k ** 3 - Z_k_minus_1 ** 3) / 3
+            self.B += np.dot(layer.raideur_matrix_on_coordinate_X_Y, (Z_k ** 2 - Z_k_minus_1 ** 2) / 2)
+            self.C += np.dot(layer.raideur_matrix_on_coordinate_X_Y, (Z_k ** 3 - Z_k_minus_1 ** 3) / 3)
 
-        self.hat_E_x = (self.A_row_col(1, 1) * self.A_row_col(2, 2) - self.A_row_col(1, 2) ** 2) / (self.A_row_col(2, 2) * total_thickness)
-        self.hat_E_y = (self.A_row_col(1, 1) * self.A_row_col(2, 2) - self.A_row_col(1, 2) ** 2) / (self.A_row_col(1, 1) * total_thickness)
-        self.hat_mu_xy = self.A_row_col(2, 1) / self.A_row_col(2, 2)
-        self.hat_mu_yx = self.A_row_col(2, 1) / self.A_row_col(1, 1)
+        hat_E_x = (self.A_row_col(1, 1) * self.A_row_col(2, 2) - self.A_row_col(1, 2) ** 2) / (self.A_row_col(2, 2) * total_thickness)
+        hat_E_y = (self.A_row_col(1, 1) * self.A_row_col(2, 2) - self.A_row_col(1, 2) ** 2) / (self.A_row_col(1, 1) * total_thickness)
+        hat_nu_xy = self.A_row_col(2, 1) / self.A_row_col(2, 2)
+        hat_nu_yx = self.A_row_col(2, 1) / self.A_row_col(1, 1)
+        hat_G_xy = self.A_row_col(3, 3) / total_thickness
+
+        self.modules_apparents_matrix = np.array([
+            [frac(hat_E_x), -hat_nu_yx / hat_E_y, 0],
+            [-hat_nu_xy / hat_E_x, frac(hat_E_y), 0],
+            [0, 0, frac(hat_G_xy)]
+        ])
 
     def get_Z_k(self, k: int):
         """
         :param k:  第k层板，从1开始计数
         :return: Z_k
         """
-        layer_amount = self.layer_amount
+        half_layer_amount = len(self.theta_list) / 2
         thickness = self.thickness
         if k == 0:
             return 0
-        elif k <= layer_amount:
-            return (-layer_amount / 2 + k - 1) * thickness
+        elif k <= half_layer_amount:
+            return (-half_layer_amount / 2 + k - 1) * thickness
         else:
-            return (k - layer_amount / 2) * thickness
+            return (k - half_layer_amount / 2) * thickness
 
     def A_row_col(self, row, col):
         return self.A[row - 1][col - 1]
@@ -178,29 +173,29 @@ class Laminate:
 
 if __name__ == '__main__':
     DEBUG = True
-    if DEBUG:
+    if DEBUG:  # TD5
         inputted_E_l = 140e9
         inputted_E_t = 5e9
-        inputted_mu_lt = 0.35
-        inputted_G_lt = 4
-        inputted_theta_list = [0, 90, 90, 0]
-        inputted_thickness = 10
+        inputted_nu_lt = 0.35
+        inputted_G_lt = 5e9
+        inputted_theta_list = [45, -45, -45, 45]
+        inputted_thickness = 1
     else:
         inputted_E_l = input_a_number("请输入E_l(参考值: 140e9)")
         inputted_E_t = input_a_number("请输入E_t(参考值: 5e9)")
-        inputted_mu_lt = input_a_number("请输入mu_lt(参考值: 0.35)")
+        inputted_nu_lt = input_a_number("请输入nu_lt(参考值: 0.35)")
         inputted_G_lt = input_a_number("请输入G_lt(参考值: 4)")
         inputted_layer_amount = input_a_number("请输入层合板的层数(参考值: 4)", is_int=True)
-        inputted_theta_list = input_a_number_list("请逐个输入各层板的纤维角度(参考值: 0,45,60,90)", max_length=inputted_layer_amount)
+        inputted_theta_list = input_a_number_list("请逐个输入各层板的纤维角度(参考值: 0,45,60,90等)", max_length=inputted_layer_amount)
         inputted_thickness = input_a_number("请输入单板层的厚度(0.1)")
 
     print("\n\n-------------\n\n")
 
     laminate = Laminate(E_l=inputted_E_l,
                         E_t=inputted_E_t,
-                        mu_lt=inputted_mu_lt,
+                        nu_lt=inputted_nu_lt,
                         G_lt=inputted_G_lt,
                         theta_list=inputted_theta_list,
                         thickness=inputted_thickness)
 
-    print(laminate.to_json())
+    pprint(json.loads(laminate.to_json()))
