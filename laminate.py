@@ -102,6 +102,7 @@ class Laminate:
     def __init__(self,
                  E_l: Number, E_t: Number, nu_lt: Number, G_lt: Number,
                  theta_list: List[Union[int, float]], thickness: Number):
+        # 角度制 转 弧度制
         theta_list = self.theta_list = [theta / 180 * pi for theta in theta_list]
 
         self.layers: List[LayerOnCoordinateXY] = [LayerOnCoordinateXY(E_l, E_t, nu_lt, G_lt, theta) for theta in theta_list]
@@ -115,15 +116,14 @@ class Laminate:
             Z_k = self.get_Z_k(layer_index + 1)
             Z_k_minus_1 = self.get_Z_k(layer_index)
             self.A += thickness * layer.raideur_matrix_on_coordinate_X_Y
-            self.B += np.dot(layer.raideur_matrix_on_coordinate_X_Y, (Z_k ** 2 - Z_k_minus_1 ** 2) / 2)
-            self.C += np.dot(layer.raideur_matrix_on_coordinate_X_Y, (Z_k ** 3 - Z_k_minus_1 ** 3) / 3)
+            self.B += (Z_k ** 2 - Z_k_minus_1 ** 2) / 2 * layer.raideur_matrix_on_coordinate_X_Y
+            self.C += (Z_k ** 3 - Z_k_minus_1 ** 3) / 3 * layer.raideur_matrix_on_coordinate_X_Y
 
         hat_E_x = (self.A_row_col(1, 1) * self.A_row_col(2, 2) - self.A_row_col(1, 2) ** 2) / (self.A_row_col(2, 2) * total_thickness)
         hat_E_y = (self.A_row_col(1, 1) * self.A_row_col(2, 2) - self.A_row_col(1, 2) ** 2) / (self.A_row_col(1, 1) * total_thickness)
         hat_nu_xy = self.A_row_col(2, 1) / self.A_row_col(2, 2)
         hat_nu_yx = self.A_row_col(2, 1) / self.A_row_col(1, 1)
         hat_G_xy = self.A_row_col(3, 3) / total_thickness
-
         self.modules_apparents_matrix = np.array([
             [frac(hat_E_x), -hat_nu_yx / hat_E_y, 0],
             [-hat_nu_xy / hat_E_x, frac(hat_E_y), 0],
@@ -135,14 +135,7 @@ class Laminate:
         :param k:  第k层板，从1开始计数
         :return: Z_k
         """
-        half_layer_amount = len(self.theta_list) / 2
-        thickness = self.thickness
-        if k == 0:
-            return 0
-        elif k <= half_layer_amount:
-            return (-half_layer_amount / 2 + k - 1) * thickness
-        else:
-            return (k - half_layer_amount / 2) * thickness
+        return (k - len(self.theta_list) / 2) * self.thickness
 
     def A_row_col(self, row, col):
         return self.A[row - 1][col - 1]
@@ -178,8 +171,10 @@ if __name__ == '__main__':
         inputted_E_t = 5e9
         inputted_nu_lt = 0.35
         inputted_G_lt = 5e9
-        inputted_theta_list = [45, -45, -45, 45]
-        inputted_thickness = 1
+        # inputted_theta_list = [45, -45, -45, 45]
+        inputted_theta_list = [0, 0, 90, 90, 90, 90, 0, 0]  # TD7
+        # inputted_thickness = 1
+        inputted_thickness = 2e-3 / 8  # TD7
     else:
         inputted_E_l = input_a_number("请输入E_l(参考值: 140e9)")
         inputted_E_t = input_a_number("请输入E_t(参考值: 5e9)")
