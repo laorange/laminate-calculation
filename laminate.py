@@ -1,3 +1,4 @@
+import json
 from typing import Union, List
 from pprint import pprint
 
@@ -167,6 +168,13 @@ class Laminate:
         self.transform_all_ndarray_attributes_to_list()
         self.print()
 
+    def to_json(self):
+        self.transform_all_ndarray_attributes_to_list()
+        _dict = self.__dict__
+        _layers = []
+        _dict['layers'] = [layer.__dict__ for layer in _dict.get('layers', [])]
+        return json.dumps(_dict)
+
 
 if __name__ == '__main__':
     DEBUG = True
@@ -195,4 +203,4 @@ if __name__ == '__main__':
                         theta_list=inputted_theta_list,
                         thickness=inputted_thickness)
 
-    laminate.destructive_print()
+    print(laminate.to_json())
