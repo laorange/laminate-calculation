@@ -41,8 +41,6 @@ class LayerOnCoordinateLT:
         self.mu_lt = mu_lt
         self.mu_tl = mu_lt * E_t / E_l
 
-        self.frac_mu_lt__E_t = self.mu_lt / self.E_l
-
         self.souplesse_matrix_on_coordinate_L_T = np.array([
             [frac(self.E_l), - self.mu_lt / self.E_l, 0],
             [- self.mu_lt / self.E_l, frac(self.E_t), 0],
@@ -58,15 +56,15 @@ class LayerOnCoordinateXY(LayerOnCoordinateLT):
         super(LayerOnCoordinateXY, self).__init__(E_l, E_t, mu_lt, G_lt)
 
         self.theta = theta
-        c = self.c = np.cos(self.theta)
-        s = self.s = np.sin(self.theta)
+        c = self.cos_theta = np.cos(self.theta)
+        s = self.sin_theta = np.sin(self.theta)
 
         hat_E_l = self.hat_E_l = self.E_l / (1 - self.mu_lt * self.mu_tl)
         hat_E_t = self.hat_E_t = self.E_t / (1 - self.mu_lt * self.mu_tl)
 
         # localization
         mu_tl = self.mu_tl
-        frac_mu_lt__E_t = self.frac_mu_lt__E_t
+        frac_mu_lt__E_t = self.mu_lt / self.E_l
 
         hat_E11 = self.hat_E11 = c ** 4 * hat_E_l + s ** 4 * hat_E_t + 2 * (c * s) ** 2 * (mu_tl * hat_E_l + 2 * G_lt)
         hat_E22 = self.hat_E22 = s ** 4 * hat_E_l + c ** 4 * hat_E_t + 2 * (c * s) ** 2 * (mu_tl * hat_E_l + 2 * G_lt)
@@ -148,6 +146,7 @@ class Laminate:
         return self.A[row - 1][col - 1]
 
     def print(self):
+        print("Laminate:")
         pprint(self.__dict__)
         for index, layer in enumerate(self.layers):
             print(f"\n\n\n-----layer{index + 1}:")
@@ -167,7 +166,7 @@ class Laminate:
 
 
 if __name__ == '__main__':
-    DEBUG = False
+    DEBUG = True
     if DEBUG:
         inputted_E_l = 140e9
         inputted_E_t = 5e9
