@@ -32,6 +32,12 @@ def input_a_number_list(help_text: str = "现在请输入一串数字", max_leng
         ls.append(input_a_number(f"现在，请输入第{len(ls) + 1}个数"))
 
 
+def transform_all_ndarray_attributes_of_obj_to_list(obj):
+    for key, value in obj.__dict__.items():
+        if isinstance(value, np.ndarray):
+            obj.__setattr__(key, value.tolist())
+
+
 class LayerOnCoordinateLT:
     def __init__(self, E_l: Number, E_t: Number, mu_lt: Number, G_lt: Number):
         super().__init__()
@@ -125,8 +131,8 @@ class Laminate:
 
         self.hat_E_x = (self.A_row_col(1, 1) * self.A_row_col(2, 2) - self.A_row_col(1, 2) ** 2) / (self.A_row_col(2, 2) * total_thickness)
         self.hat_E_y = (self.A_row_col(1, 1) * self.A_row_col(2, 2) - self.A_row_col(1, 2) ** 2) / (self.A_row_col(1, 1) * total_thickness)
-        self.hat_mu_x_y = self.A_row_col(2, 1) / self.A_row_col(2, 2)
-        self.hat_mu_y_x = self.A_row_col(2, 1) / self.A_row_col(1, 1)
+        self.hat_mu_xy = self.A_row_col(2, 1) / self.A_row_col(2, 2)
+        self.hat_mu_yx = self.A_row_col(2, 1) / self.A_row_col(1, 1)
 
     def get_Z_k(self, k: int):
         """
@@ -152,16 +158,13 @@ class Laminate:
             print(f"\n\n\n-----layer{index + 1}:")
             pprint(layer.__dict__)
 
-    @staticmethod
-    def transform_ndarray_property(obj):
-        for key, value in obj.__dict__.items():
-            if isinstance(value, np.ndarray):
-                obj.__setattr__(key, value.tolist())
+    def transform_all_ndarray_attributes_to_list(self):
+        transform_all_ndarray_attributes_of_obj_to_list(self)
+        for layer in self.layers:
+            transform_all_ndarray_attributes_of_obj_to_list(layer)
 
     def destructive_print(self):
-        self.transform_ndarray_property(self)
-        for layer in self.layers:
-            self.transform_ndarray_property(layer)
+        self.transform_all_ndarray_attributes_to_list()
         self.print()
 
 
