@@ -101,13 +101,22 @@ class LayerOnCoordinateXY(LayerOnCoordinateLT):
 class Laminate:
     def __init__(self,
                  E_l: Number, E_t: Number, nu_lt: Number, G_lt: Number,
-                 theta_list: List[Union[int, float]], thickness: Number):
+                 theta_list: List[Union[int, float]], thickness: Union[Number, List[Number]]):
         # 角度制 转 弧度制
         theta_list = self.theta_list = [theta / 180 * pi for theta in theta_list]
 
         self.layers: List[LayerOnCoordinateXY] = [LayerOnCoordinateXY(E_l, E_t, nu_lt, G_lt, theta) for theta in theta_list]
-        self.thickness = thickness
-        total_thickness = self.total_thickness = len(theta_list) * thickness
+
+        # 处理各层板的厚度
+        if isinstance(thickness, list):
+            if len(thickness) != len(theta_list):
+                raise Exception("theta个数与各层厚度数量不相等，请检查")
+            thickness_list = thickness
+        else:
+            thickness_list = [thickness for _ in theta_list]
+        self.thickness_list: List[Number] = thickness_list
+
+        total_thickness = self.total_thickness = sum(thickness_list)
 
         self.A = np.zeros((3, 3))
         self.B = np.zeros((3, 3))
@@ -115,7 +124,7 @@ class Laminate:
         for layer_index, layer in enumerate(self.layers):
             Z_k = self.get_Z_k(layer_index + 1)
             Z_k_minus_1 = self.get_Z_k(layer_index)
-            self.A += thickness * layer.raideur_matrix_on_coordinate_X_Y
+            self.A += thickness_list[layer_index] * layer.raideur_matrix_on_coordinate_X_Y
             self.B += (Z_k ** 2 - Z_k_minus_1 ** 2) / 2 * layer.raideur_matrix_on_coordinate_X_Y
             self.C += (Z_k ** 3 - Z_k_minus_1 ** 3) / 3 * layer.raideur_matrix_on_coordinate_X_Y
 
@@ -135,7 +144,7 @@ class Laminate:
         :param k:  第k层板，从1开始计数
         :return: Z_k
         """
-        return (k - len(self.theta_list) / 2) * self.thickness
+        return sum(self.thickness_list[:k]) - self.total_thickness / 2
 
     def A_row_col(self, row, col):
         return self.A[row - 1][col - 1]
@@ -181,7 +190,7 @@ if __name__ == '__main__':
         inputted_nu_lt = input_a_number("请输入nu_lt(参考值: 0.35)")
         inputted_G_lt = input_a_number("请输入G_lt(参考值: 4)")
         inputted_layer_amount = input_a_number("请输入层合板的层数(参考值: 4)", is_int=True)
-        inputted_theta_list = input_a_number_list("请逐个输入各层板的纤维角度(参考值: 0,45,60,90等)", max_length=inputted_layer_amount)
+        inputted_theta_list = input_a_number_list("请逐个输入各层板的纤维角度(参考值: 0,45,60,90等角度制数字)", max_length=inputted_layer_amount)
         inputted_thickness = input_a_number("请输入单板层的厚度(0.1)")
 
     print("\n\n-------------\n\n")
