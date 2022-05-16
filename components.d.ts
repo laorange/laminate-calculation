@@ -17,12 +17,17 @@ declare module '@vue/runtime-core' {
     ElRow: typeof import('element-plus/es')['ElRow']
     FormArea: typeof import('./src/components/FormArea.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    LaminateResult: typeof import('./src/components/result-area/LaminateResult.vue')['default']
     LayerAttributeInput: typeof import('./src/components/LayerAttributeInput.vue')['default']
+    LayerResult: typeof import('./src/components/result-area/LayerResult.vue')['default']
     NDivider: typeof import('naive-ui')['NDivider']
     NDynamicInput: typeof import('naive-ui')['NDynamicInput']
     NInputNumber: typeof import('naive-ui')['NInputNumber']
+    ResultArea: typeof import('./src/components/result-area/ResultArea.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    VanTab: typeof import('vant/es')['Tab']
+    VanTabs: typeof import('vant/es')['Tabs']
   }
 }
 

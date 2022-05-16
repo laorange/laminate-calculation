@@ -32,6 +32,6 @@ export interface Laminate {
     "modules_apparents_matrix": Matrix33,
     "theta_list": number[],
     "thickness_list": number[],
-    "total_thickness": 0.002,
+    "total_thickness": number,
     "layers": Layer[]
 }

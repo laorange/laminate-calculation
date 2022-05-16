@@ -49,10 +49,14 @@ const store = useStore()
 
       <layer-attribute-input/>
 
-      <div class="button-area" v-show="store.whetherCanSubmit">
+      <div class="button-area">
         <el-button type="success" :icon="Trophy">赞赏支持</el-button>
         <span>&nbsp;&nbsp;</span>
-        <el-button type="primary" :icon="Odometer" @click="store.submitToGetResult">开始计算</el-button>
+        <el-button type="primary" :icon="Odometer"
+                   :disabled="!store.whetherCanSubmit"
+                   @click="store.submitToGetResult">
+          {{ store.whetherCanSubmit? "开始计算": "请先在上方填写数据" }}
+        </el-button>
       </div>
 
     </div>
