@@ -23,6 +23,14 @@ watch(() => dynamicInputValues, () => {
   store.inputted.theta_list = dynamicInputValues.value.map(v => v.theta)
   store.inputted.thickness_list = dynamicInputValues.value.map(v => v.thickness)
 }, {deep: true})
+
+function thicknessValidator(thickness: number) {
+  return thickness > 0
+}
+
+function thetaValidator(theta: number) {
+  return theta <= 360 && theta >= -360
+}
 </script>
 
 <template>
@@ -35,6 +43,7 @@ watch(() => dynamicInputValues, () => {
         <div style="display: flex; align-items: center; width: 100%">
           <n-input-number
               v-model:value="value.thickness"
+              :validator="thicknessValidator"
               style="flex: 1"
               placeholder="该层的厚度">
             <template #suffix>m</template>
@@ -42,6 +51,7 @@ watch(() => dynamicInputValues, () => {
 
           <n-input-number
               v-model:value="value.theta"
+              :validator="thetaValidator"
               style="flex: 1"
               placeholder="纤维方向角 θ">
             <template #suffix>°</template>
