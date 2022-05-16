@@ -4,6 +4,10 @@ import {Trophy} from "@element-plus/icons-vue";
 import DonateDialog from "./DonateDialog.vue";
 
 const showDonateDialog = ref<boolean>(false)
+
+function open(href: string) {
+  window.open(href)
+}
 </script>
 
 <template>

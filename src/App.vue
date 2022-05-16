@@ -9,10 +9,6 @@ import {useStore} from "../store/store";
 import FooterArea from "./components/FooterArea.vue";
 
 const store = useStore()
-
-function open(href: string) {
-  window.open(href)
-}
 </script>
 
 <template>
