@@ -37,7 +37,7 @@ watch(() => dynamicInputValues, () => {
               v-model:value="value.thickness"
               style="flex: 1"
               placeholder="该层的厚度">
-            <template #suffix>mm</template>
+            <template #suffix>m</template>
           </n-input-number>
 
           <n-input-number

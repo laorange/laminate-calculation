@@ -2,9 +2,12 @@
 import {useStore} from "../../store/store";
 import LayerAttributeInput from "./LayerAttributeInput.vue";
 import {Trophy, Odometer} from "@element-plus/icons-vue";
+import DonateDialog from "./DonateDialog.vue";
+import {ref} from "vue";
 
 const store = useStore()
 
+const showDonateDialog = ref<boolean>(false)
 </script>
 
 <template>
@@ -16,7 +19,7 @@ const store = useStore()
           <vue-latex expression="E_l"/>
         </template>
         <template #suffix>
-          GPa
+          Pa
         </template>
       </n-input-number>
 
@@ -25,7 +28,7 @@ const store = useStore()
           <vue-latex expression="E_t"/>
         </template>
         <template #suffix>
-          GPa
+          Pa
         </template>
       </n-input-number>
 
@@ -34,7 +37,7 @@ const store = useStore()
           <vue-latex expression="G_{lt}"/>
         </template>
         <template #suffix>
-          GPa
+          Pa
         </template>
       </n-input-number>
 
@@ -50,7 +53,7 @@ const store = useStore()
       <layer-attribute-input/>
 
       <div class="button-area">
-        <el-button type="success" :icon="Trophy">赞赏支持</el-button>
+        <el-button type="success" :icon="Trophy" @click="showDonateDialog=true">赞赏支持</el-button>
         <span>&nbsp;&nbsp;</span>
         <el-button type="primary" :icon="Odometer"
                    :disabled="!store.whetherCanSubmit"
@@ -58,8 +61,9 @@ const store = useStore()
           {{ store.whetherCanSubmit? "开始计算": "请先在上方填写数据" }}
         </el-button>
       </div>
-
     </div>
+
+    <donate-dialog v-model="showDonateDialog"></donate-dialog>
 
   </div>
 </template>
