@@ -14,7 +14,7 @@ const value = computed<boolean>({
   <el-dialog
       v-model="value"
       title="😆开发不易 还望支持😆"
-      width="30%"
+      width="500px"
   >
     <img src="/donate-qr.jpg" alt="qr.jpg" style="width: 100%">
   </el-dialog>

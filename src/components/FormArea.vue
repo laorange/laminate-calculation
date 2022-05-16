@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import {useStore} from "../../store/store";
 import LayerAttributeInput from "./LayerAttributeInput.vue";
-import {Trophy, Odometer} from "@element-plus/icons-vue";
-import DonateDialog from "./DonateDialog.vue";
-import {ref} from "vue";
+import {Odometer} from "@element-plus/icons-vue";
 
 const store = useStore()
-
-const showDonateDialog = ref<boolean>(false)
 </script>
 
 <template>
@@ -53,18 +49,13 @@ const showDonateDialog = ref<boolean>(false)
       <layer-attribute-input/>
 
       <div class="button-area">
-        <el-button type="success" :icon="Trophy" @click="showDonateDialog=true">赞赏支持</el-button>
-        <span>&nbsp;&nbsp;</span>
         <el-button type="primary" :icon="Odometer"
                    :disabled="!store.whetherCanSubmit"
                    @click="store.submitToGetResult">
-          {{ store.whetherCanSubmit? "开始计算": "请先在上方填写数据" }}
+          {{ store.whetherCanSubmit ? "开始计算" : "在开始计算前，请先在上方补全所有需要填写的数据" }}
         </el-button>
       </div>
     </div>
-
-    <donate-dialog v-model="showDonateDialog"></donate-dialog>
-
   </div>
 </template>
 

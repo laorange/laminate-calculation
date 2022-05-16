@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
     ElCollapseItem: typeof import('element-plus/es')['ElCollapseItem']
     ElDialog: typeof import('element-plus/es')['ElDialog']
     ElFooter: typeof import('element-plus/es')['ElFooter']
+    FooterArea: typeof import('./src/components/FooterArea.vue')['default']
     FormArea: typeof import('./src/components/FormArea.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     LaminateResult: typeof import('./src/components/result-area/LaminateResult.vue')['default']

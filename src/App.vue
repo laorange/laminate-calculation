@@ -6,6 +6,7 @@ import FormArea from "./components/FormArea.vue";
 import ResultArea from "./components/result-area/ResultArea.vue";
 
 import {useStore} from "../store/store";
+import FooterArea from "./components/FooterArea.vue";
 
 const store = useStore()
 
@@ -31,9 +32,7 @@ function open(href: string) {
     </el-collapse-item>
   </el-collapse>
 
-  <el-footer>
-    <div>Made with ❤️ by <span @click="open('https://github.com/laorange')" style="cursor: pointer">GitHub@laorange</span></div>
-  </el-footer>
+  <footer-area/>
 </template>
 
 <style>
@@ -47,14 +46,7 @@ function open(href: string) {
   margin: 30px;
 }
 
-.el-footer {
-  display: flex;
-  flex-direction: column;
-  justify-items: center;
-  justify-content: center;
-}
-
 .el-collapse {
-  min-height: 75vh;
+
 }
 </style>
