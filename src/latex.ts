@@ -16,6 +16,9 @@ export const tex = {
 
 
     E_x: (value: number) => `E_{x}(\\theta)=\\frac{1}{\\frac{c^{4}}{E_{l}}+\\frac{s^{4}}{E_{t}}+c^{2} s^{2}\\left(\\frac{1}{G_{l t}}-2 \\frac{v_{t l}}{E_{t}}\\right)} = ${value}`,
-    matrix33: (matrix: Matrix33) => `\\left[\\begin{array}{ccc}${matrix[0][0]} & ${matrix[0][1]} & ${matrix[0][2]} \\\\ ${matrix[1][0]} & ${matrix[1][1]} & ${matrix[1][2]} \\\\ ${matrix[2][0]} & ${matrix[2][1]} & ${matrix[2][2]} \\end{array}\\right]`
+    matrix33: (matrix: Matrix33 | undefined) => {
+        if (typeof matrix === "undefined") return ""
+        return `\\left[\\begin{array}{ccc}${matrix[0][0]} & ${matrix[0][1]} & ${matrix[0][2]} \\\\ ${matrix[1][0]} & ${matrix[1][1]} & ${matrix[1][2]} \\\\ ${matrix[2][0]} & ${matrix[2][1]} & ${matrix[2][2]} \\end{array}\\right]`
+    }
 
 }

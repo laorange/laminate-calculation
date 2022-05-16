@@ -2,7 +2,7 @@
 import {Laminate} from "../../../types/types";
 import {tex} from "../../latex";
 
-defineProps<{ laminate: Laminate }>()
+defineProps<{ laminate: Laminate | undefined }>()
 
 </script>
 
@@ -15,16 +15,16 @@ defineProps<{ laminate: Laminate }>()
       <vue-latex :expression="`${tex.formula.matrix_A}`"/>
     </div>
     <div class="result-block">
-      <vue-latex :expression="`A = ${tex.matrix33(laminate.A)}`"/>
+      <vue-latex :expression="`A = ${tex.matrix33(laminate?.A)}`"/>
     </div>
 
     <n-divider/>
 
     <div class="result-block">
-      <vue-latex :expression="`B = ${tex.matrix33(laminate.B)}`"/>
+      <vue-latex :expression="`B = ${tex.matrix33(laminate?.B)}`"/>
     </div>
     <div class="result-block">
-      <vue-latex :expression="`C = ${tex.matrix33(laminate.C)}`"/>
+      <vue-latex :expression="`C = ${tex.matrix33(laminate?.C)}`"/>
     </div>
 
     <n-divider/>

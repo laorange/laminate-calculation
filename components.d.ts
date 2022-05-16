@@ -6,17 +6,11 @@ import '@vue/runtime-core'
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     DonateDialog: typeof import('./src/components/DonateDialog.vue')['default']
-    ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
-    ElCol: typeof import('element-plus/es')['ElCol']
     ElCollapse: typeof import('element-plus/es')['ElCollapse']
     ElCollapseItem: typeof import('element-plus/es')['ElCollapseItem']
-    ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDialog: typeof import('element-plus/es')['ElDialog']
     ElFooter: typeof import('element-plus/es')['ElFooter']
-    ElHeader: typeof import('element-plus/es')['ElHeader']
-    ElMain: typeof import('element-plus/es')['ElMain']
-    ElRow: typeof import('element-plus/es')['ElRow']
     FormArea: typeof import('./src/components/FormArea.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     LaminateResult: typeof import('./src/components/result-area/LaminateResult.vue')['default']
