@@ -2,7 +2,7 @@ import json
 import traceback
 
 from flask import Flask
-from flask import request
+from flask import request, render_template
 from flask_cors import CORS
 from laminate import Laminate
 
@@ -15,7 +15,7 @@ CORS(app, resources=r'/*')
 @app.route('/', methods=['GET', 'POST'])
 def hello_world():
     if request.method == 'GET':
-        return "服务端已就绪"
+        return render_template('index.html')
     try:
         print("request.form:", request.form)
         print("request.data:", request.data)
@@ -33,4 +33,5 @@ def hello_world():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8000)
+    app.run(port=8000)
+    # app.run(host="0.0.0.0", port=80)
