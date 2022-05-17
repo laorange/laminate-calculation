@@ -36,21 +36,33 @@ export const useStore = defineStore('store', {
         }
     },
     getters: {
-        whetherCanSubmit(): boolean {
-            if (!this.inputted.E_l || !this.inputted.E_t || !this.inputted.nu_lt || !this.inputted.G_lt) {
-                return false
+        dataCompletionDegree(): number {
+            let finished = 0
+            let total = 0
+
+            for (let _data of [this.inputted.E_l, this.inputted.E_t, this.inputted.nu_lt, this.inputted.G_lt]) {
+                total += 1
+                if (!!_data) finished += 1
             }
 
+
             if (this.inputted.theta_list.length === 0 || this.inputted.thickness_list.length === 0) {
-                return false;
+                // 一层板都没有...
+                total += 1
+            } else {
+                total += this.inputted.theta_list.length + this.inputted.thickness_list.length
+                for (const theta of this.inputted.theta_list) {
+                    if (theta !== null) finished += 1
+                }
+                for (const thickness of this.inputted.thickness_list) {
+                    if (!!thickness) finished += 1  // 厚度不能为0
+                }
             }
-            for (const theta of this.inputted.theta_list) {
-                if (theta === null) return false;
-            }
-            for (const thickness of this.inputted.thickness_list) {
-                if (!thickness) return false  // 厚度不能为0
-            }
-            return true
+
+            return Math.round(finished / total * 100)
+        },
+        whetherCanSubmit(): boolean {
+            return this.dataCompletionDegree === 100
         }
     },
     actions: {

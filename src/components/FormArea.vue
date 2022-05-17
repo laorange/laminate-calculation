@@ -47,14 +47,21 @@ const store = useStore()
       </n-input-number>
 
       <layer-attribute-input/>
+    </div>
 
-      <div class="button-area">
-        <el-button type="primary" :icon="Odometer"
-                   :disabled="!store.whetherCanSubmit"
-                   @click="store.submitToGetResult">
-          {{ store.whetherCanSubmit ? "开始计算" : "在开始计算前，请先在上方补全所有需要填写的数据" }}
-        </el-button>
+    <n-progress type="circle" :percentage="store.dataCompletionDegree">
+      <div style="display: flex; flex-direction: column; justify-content: center">
+        <div>填写进度</div>
+        <div>{{store.dataCompletionDegree}}%</div>
       </div>
+    </n-progress>
+
+    <div class="button-area">
+      <el-button type="primary" :icon="Odometer"
+                 :disabled="!store.whetherCanSubmit"
+                 @click="store.submitToGetResult">
+        {{ store.whetherCanSubmit ? "开始计算" : "在开始计算前，需要先在上方补全所有需要填写的数据" }}
+      </el-button>
     </div>
   </div>
 </template>
@@ -67,6 +74,9 @@ const store = useStore()
 .number-input-area {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
 }
 
 .button-area {

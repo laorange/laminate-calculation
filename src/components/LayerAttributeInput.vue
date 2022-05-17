@@ -37,7 +37,7 @@ function thetaValidator(theta: number) {
   <div class="layer-attribute-input">
     <n-dynamic-input v-model:value="dynamicInputValues" :on-create="createDynamicInputValue">
       <template #create-button-default>
-        为这个复合材料加一层板
+        点击此处来为这个复合材料加第一层板
       </template>
       <template #default="{ value }">
         <div style="display: flex; align-items: center; width: 100%">
@@ -60,6 +60,8 @@ function thetaValidator(theta: number) {
       </template>
     </n-dynamic-input>
 
+    <div class="add-layer-info" v-if="dynamicInputValues.length===1">想要再加一层板？请点击这里 ↑</div>
+
     <div class="layer-amount-display" v-if="dynamicInputValues.length>2">共{{ dynamicInputValues.length }}层</div>
   </div>
 </template>
@@ -67,9 +69,16 @@ function thetaValidator(theta: number) {
 <style scoped>
 .layer-attribute-input {
   margin: 3px 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .layer-amount-display {
 
+}
+
+.add-layer-info {
+  align-self: end;
+  margin-right: 15px;
 }
 </style>

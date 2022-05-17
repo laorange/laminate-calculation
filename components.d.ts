@@ -20,6 +20,7 @@ declare module '@vue/runtime-core' {
     NDivider: typeof import('naive-ui')['NDivider']
     NDynamicInput: typeof import('naive-ui')['NDynamicInput']
     NInputNumber: typeof import('naive-ui')['NInputNumber']
+    NProgress: typeof import('naive-ui')['NProgress']
     ResultArea: typeof import('./src/components/result-area/ResultArea.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
