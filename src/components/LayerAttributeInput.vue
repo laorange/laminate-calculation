@@ -46,7 +46,7 @@ function thetaValidator(theta: number) {
               :validator="thicknessValidator"
               style="flex: 1"
               placeholder="该层的厚度">
-            <template #suffix>m</template>
+            <template #suffix>mm</template>
           </n-input-number>
 
           <n-input-number

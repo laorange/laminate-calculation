@@ -15,7 +15,7 @@ const store = useStore()
           <vue-latex expression="E_l"/>
         </template>
         <template #suffix>
-          Pa
+          MPa
         </template>
       </n-input-number>
 
@@ -24,7 +24,7 @@ const store = useStore()
           <vue-latex expression="E_t"/>
         </template>
         <template #suffix>
-          Pa
+          MPa
         </template>
       </n-input-number>
 
@@ -33,7 +33,7 @@ const store = useStore()
           <vue-latex expression="G_{lt}"/>
         </template>
         <template #suffix>
-          Pa
+          MPa
         </template>
       </n-input-number>
 
