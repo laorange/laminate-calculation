@@ -1,5 +1,14 @@
 export type Matrix33 = [[number, number, number], [number, number, number], [number, number, number]]
 
+export interface InputtedLayerInfo {
+    "E_l": number | null,
+    "E_t": number | null,
+    "nu_lt": number | null,
+    "G_lt": number | null,
+    "theta": number | null,
+    "thickness": number | null,
+}
+
 export interface Layer {
     "E_l": number,
     "E_t": number,

@@ -2,10 +2,11 @@ import json
 from typing import Union, List
 from pprint import pprint
 
+from pydantic import BaseModel, Field
 import numpy as np
 from numpy import pi
 
-Number = Union[int, float]
+Number = Union[float, int]
 
 
 def frac(number: Number):
@@ -37,6 +38,15 @@ def transform_all_ndarray_attributes_of_obj_to_list(obj):
     for key, value in obj.__dict__.items():
         if isinstance(value, np.ndarray):
             obj.__setattr__(key, value.tolist())
+
+
+class LayerInfo(BaseModel):
+    E_l: Number
+    E_t: Number
+    G_lt: Number
+    nu_lt: Number
+    theta: Number
+    thickness: Number
 
 
 class LayerOnCoordinateLT:
@@ -99,23 +109,13 @@ class LayerOnCoordinateXY(LayerOnCoordinateLT):
 
 
 class Laminate:
-    def __init__(self,
-                 E_l: Number, E_t: Number, nu_lt: Number, G_lt: Number,
-                 theta_list: List[Union[int, float]], thickness: Union[Number, List[Number]]):
-        # 角度制 转 弧度制
-        theta_list = self.theta_list = [theta / 180 * pi for theta in theta_list]
+    def __init__(self, layer_infos: List[LayerInfo]):
 
-        self.layers: List[LayerOnCoordinateXY] = [LayerOnCoordinateXY(E_l, E_t, nu_lt, G_lt, theta) for theta in theta_list]
+        self.layers: List[LayerOnCoordinateXY] = [LayerOnCoordinateXY(layer_info.E_l, layer_info.E_t, layer_info.nu_lt, layer_info.G_lt,
+                                                                      # 角度制 转 弧度制
+                                                                      layer_info.theta / 180 * pi) for layer_info in layer_infos]
 
-        # 处理各层板的厚度
-        if isinstance(thickness, list):
-            if len(thickness) != len(theta_list):
-                raise Exception("theta个数与各层厚度数量不相等，请检查")
-            thickness_list = thickness
-        else:
-            thickness_list = [thickness for _ in theta_list]
-        self.thickness_list: List[Number] = thickness_list
-
+        thickness_list = self.thickness_list = [layer_info.thickness for layer_info in layer_infos]
         total_thickness = self.total_thickness = sum(thickness_list)
 
         self.A = np.zeros((3, 3))
@@ -193,13 +193,15 @@ if __name__ == '__main__':
         inputted_theta_list = input_a_number_list("请逐个输入各层板的纤维角度(参考值: 0,45,60,90等角度制数字)", max_length=inputted_layer_amount)
         inputted_thickness = input_a_number("请输入单板层的厚度(0.1)")
 
-    print("\n\n-------------\n\n")
+    layerInfoList = [LayerInfo(
+        E_l=inputted_E_l,
+        E_t=inputted_E_t,
+        G_lt=inputted_G_lt,
+        nu_lt=inputted_nu_lt,
+        theta=inputted_theta,
+        thickness=inputted_thickness,
+    ) for inputted_theta in inputted_theta_list]
 
-    laminate = Laminate(E_l=inputted_E_l,
-                        E_t=inputted_E_t,
-                        nu_lt=inputted_nu_lt,
-                        G_lt=inputted_G_lt,
-                        theta_list=inputted_theta_list,
-                        thickness=inputted_thickness)
+    laminate = Laminate(layerInfoList)
 
     pprint(json.loads(laminate.to_json()))

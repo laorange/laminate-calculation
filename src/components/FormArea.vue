@@ -10,49 +10,13 @@ const store = useStore()
   <div class="form-area">
 
     <div class="number-input-area">
-      <n-input-number v-model:value="store.inputted.E_l" placeholder="平行于纤维方向的杨氏模量 | Module d’élasticité longitudinal">
-        <template #prefix>
-          <vue-latex expression="E_l"/>
-        </template>
-        <template #suffix>
-          MPa
-        </template>
-      </n-input-number>
-
-      <n-input-number v-model:value="store.inputted.E_t" placeholder="垂直于纤维方向的杨氏模量 | Module d’élasticité transversal">
-        <template #prefix>
-          <vue-latex expression="E_t"/>
-        </template>
-        <template #suffix>
-          MPa
-        </template>
-      </n-input-number>
-
-      <n-input-number v-model:value="store.inputted.G_lt" placeholder="剪切模量 | Module de cisaillement">
-        <template #prefix>
-          <vue-latex expression="G_{lt}"/>
-        </template>
-        <template #suffix>
-          MPa
-        </template>
-      </n-input-number>
-
-      <n-input-number v-model:value="store.inputted.nu_lt" placeholder="泊松比 | Coefficients de Poisson">
-        <template #prefix>
-          <vue-latex expression="\nu_{lt}"/>
-        </template>
-        <template #suffix>
-          &nbsp;&nbsp;&nbsp;&nbsp;
-        </template>
-      </n-input-number>
-
       <layer-attribute-input/>
     </div>
 
-    <n-progress type="circle" :percentage="store.dataCompletionDegree">
+    <n-progress type="circle" :percentage="store.dataCompletionDegree" v-show="store.inputtedLayerInfos.length>0">
       <div style="display: flex; flex-direction: column; justify-content: center">
         <div>填写进度</div>
-        <div>{{store.dataCompletionDegree}}%</div>
+        <div>{{ store.dataCompletionDegree }}%</div>
       </div>
     </n-progress>
 
@@ -83,5 +47,6 @@ const store = useStore()
   display: flex;
   justify-content: center;
   justify-items: center;
+  margin: 5px 0;
 }
 </style>

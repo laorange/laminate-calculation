@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {Laminate} from "../types/types";
+import {InputtedLayerInfo, Laminate} from "../types/types";
 import axios from "axios";
 
 
@@ -7,14 +7,7 @@ type State = {
     isLoading: boolean,
     collapseActiveName: "input" | "result" | "error",
     errorMessage: string,
-    inputted: {
-        E_l: number | null,
-        E_t: number | null,
-        nu_lt: number | null,
-        G_lt: number | null,
-        theta_list: (number | null)[],
-        thickness_list: (number | null)[],
-    },
+    inputtedLayerInfos: InputtedLayerInfo[],
     result: Laminate | undefined,
 }
 
@@ -24,39 +17,27 @@ export const useStore = defineStore('store', {
             isLoading: false,
             collapseActiveName: "input",
             errorMessage: "",
-            inputted: {
-                E_l: null,
-                E_t: null,
-                nu_lt: null,
-                G_lt: null,
-                theta_list: [],
-                thickness_list: [],
-            },
+            inputtedLayerInfos: [],
             result: undefined,
         }
     },
     getters: {
         dataCompletionDegree(): number {
             let finished = 0
-            let total = 0
+            if (this.inputtedLayerInfos.length === 0) return 0
+            let total = this.inputtedLayerInfos.length * 6
 
-            for (let _data of [this.inputted.E_l, this.inputted.E_t, this.inputted.nu_lt, this.inputted.G_lt]) {
-                total += 1
-                if (!!_data) finished += 1
+            function ifItIsNotNullAdd1ToFinished(sth: unknown | null) {
+                if (sth !== null) finished += 1
             }
 
-
-            if (this.inputted.theta_list.length === 0 || this.inputted.thickness_list.length === 0) {
-                // 一层板都没有...
-                total += 1
-            } else {
-                total += this.inputted.theta_list.length + this.inputted.thickness_list.length
-                for (const theta of this.inputted.theta_list) {
-                    if (theta !== null) finished += 1
-                }
-                for (const thickness of this.inputted.thickness_list) {
-                    if (!!thickness) finished += 1  // 厚度不能为0
-                }
+            for (const inputtedLayerInfo of this.inputtedLayerInfos) {
+                ifItIsNotNullAdd1ToFinished(inputtedLayerInfo.E_l)
+                ifItIsNotNullAdd1ToFinished(inputtedLayerInfo.E_t)
+                ifItIsNotNullAdd1ToFinished(inputtedLayerInfo.nu_lt)
+                ifItIsNotNullAdd1ToFinished(inputtedLayerInfo.G_lt)
+                ifItIsNotNullAdd1ToFinished(inputtedLayerInfo.theta)
+                ifItIsNotNullAdd1ToFinished(inputtedLayerInfo.thickness)
             }
 
             return Math.round(finished / total * 100)
@@ -71,20 +52,18 @@ export const useStore = defineStore('store', {
             this.errorMessage = ""  // 清除原有错误信息
             console.log("submitToGetResult")
             let postData = {
-                E_l: this.inputted.E_l,
-                E_t: this.inputted.E_t,
-                nu_lt: this.inputted.nu_lt,
-                G_lt: this.inputted.G_lt,
-                theta_list: this.inputted.theta_list,
-                thickness: this.inputted.thickness_list,
+                layerInfoList: JSON.stringify(this.inputtedLayerInfos)
             }
-            axios.post("http://localhost:8000/", postData).then(
+            axios("http://localhost:8000/", {
+                method: "POST",
+                data: postData
+            }).then(
                 response => {
                     try {
                         if (`${response.data}`.startsWith("Traceback")) {
                             this.errorMessage = `${response.data}`
                             this.collapseActiveName = "error"
-                        }else {
+                        } else {
                             this.result = response.data as Laminate;
                             this.collapseActiveName = "result"
                         }
