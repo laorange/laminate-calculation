@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     ElFooter: typeof import('element-plus/es')['ElFooter']
     FooterArea: typeof import('./src/components/FooterArea.vue')['default']
     FormArea: typeof import('./src/components/FormArea.vue')['default']
+    LaminateDiagram: typeof import('./src/components/LaminateDiagram.vue')['default']
     LaminateResult: typeof import('./src/components/result-area/LaminateResult.vue')['default']
     LayerAttributeInput: typeof import('./src/components/LayerAttributeInput.vue')['default']
     LayerResult: typeof import('./src/components/result-area/LayerResult.vue')['default']

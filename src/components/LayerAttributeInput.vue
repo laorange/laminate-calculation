@@ -44,72 +44,79 @@ function letSymmetric() {
       <template #create-button-default>
         点击此处来为这个复合材料加第一层板
       </template>
-      <template #default="{ value }">
-        <div class="layer-attribute-input-inner-part">
+      <template #default="{ value, index }">
+        <div class="layer-attribute-input-outer-part">
 
-          <n-input-number
-              v-model:value="value.theta"
-              :validator="validators.thetaValidator"
-              style="flex: 1"
-              placeholder="纤维方向角 (角度制)">
-            <template #prefix>
-              <vue-latex expression="\theta"/>
-            </template>
-            <template #suffix>
-              <div class="input-number-suffix-div">°</div>
-            </template>
-          </n-input-number>
+          <div class="layer-attribute-input-inner-part">
+            <n-input-number
+                v-model:value="value.theta"
+                :validator="validators.thetaValidator"
+                style="flex: 1"
+                placeholder="纤维方向角 (角度制)">
+              <template #prefix>
+                <vue-latex expression="\theta"/>
+              </template>
+              <template #suffix>
+                <div class="input-number-suffix-div">°</div>
+              </template>
+            </n-input-number>
 
-          <n-input-number v-model:value="value.E_l" placeholder="平行于纤维方向的杨氏模量 | Module d’élasticité longitudinal">
-            <template #prefix>
-              <vue-latex expression="E_l"/>
-            </template>
-            <template #suffix>
-              <div class="input-number-suffix-div">MPa</div>
-            </template>
-          </n-input-number>
+            <n-input-number v-model:value="value.E_l" placeholder="平行于纤维方向的杨氏模量 | Module d’élasticité longitudinal">
+              <template #prefix>
+                <vue-latex expression="E_l"/>
+              </template>
+              <template #suffix>
+                <div class="input-number-suffix-div">MPa</div>
+              </template>
+            </n-input-number>
+          </div>
 
-          <n-input-number v-model:value="value.E_t" placeholder="垂直于纤维方向的杨氏模量 | Module d’élasticité transversal">
-            <template #prefix>
-              <vue-latex expression="E_t"/>
-            </template>
-            <template #suffix>
-              <div class="input-number-suffix-div">MPa</div>
-            </template>
-          </n-input-number>
+          <div class="layer-attribute-input-inner-part">
+            <n-input-number v-model:value="value.E_t" placeholder="垂直于纤维方向的杨氏模量 | Module d’élasticité transversal">
+              <template #prefix>
+                <vue-latex expression="E_t"/>
+              </template>
+              <template #suffix>
+                <div class="input-number-suffix-div">MPa</div>
+              </template>
+            </n-input-number>
 
-          <n-input-number v-model:value="value.G_lt" placeholder="剪切模量 | Module de cisaillement">
-            <template #prefix>
-              <vue-latex expression="G_{lt}"/>
-            </template>
-            <template #suffix>
-              <div class="input-number-suffix-div">MPa</div>
-            </template>
-          </n-input-number>
+            <n-input-number v-model:value="value.G_lt" placeholder="剪切模量 | Module de cisaillement">
+              <template #prefix>
+                <vue-latex expression="G_{lt}"/>
+              </template>
+              <template #suffix>
+                <div class="input-number-suffix-div">MPa</div>
+              </template>
+            </n-input-number>
+          </div>
 
-          <n-input-number v-model:value="value.nu_lt" placeholder="泊松比 | Coefficients de Poisson">
-            <template #prefix>
-              <vue-latex expression="\nu_{lt}"/>
-            </template>
-            <template #suffix>
-              <div class="input-number-suffix-div">&nbsp;</div>
-            </template>
-          </n-input-number>
+          <div class="layer-attribute-input-inner-part">
+            <n-input-number v-model:value="value.nu_lt" placeholder="泊松比 | Coefficients de Poisson">
+              <template #prefix>
+                <vue-latex expression="\nu_{lt}"/>
+              </template>
+              <template #suffix>
+                <div class="input-number-suffix-div">&nbsp;</div>
+              </template>
+            </n-input-number>
 
-          <n-input-number
-              v-model:value="value.thickness"
-              :validator="validators.thicknessValidator"
-              style="flex: 1"
-              placeholder="该层的厚度 (如果它不重要，那就填1)">
-            <template #prefix>
-              <vue-latex expression="e"/>
-            </template>
-            <template #suffix>
-              <div class="input-number-suffix-div">mm</div>
-            </template>
-          </n-input-number>
+            <n-input-number
+                v-model:value="value.thickness"
+                :validator="validators.thicknessValidator"
+                style="flex: 1"
+                placeholder="该层的厚度 (如果它不重要，那就填1)">
+              <template #prefix>
+                <vue-latex expression="e"/>
+              </template>
+              <template #suffix>
+                <div class="input-number-suffix-div">mm</div>
+              </template>
+            </n-input-number>
+          </div>
 
-          <n-divider/>
+          <n-divider>↑ 第{{ index + 1 }}层 ↑</n-divider>
+
         </div>
 
       </template>
@@ -118,8 +125,6 @@ function letSymmetric() {
     <n-divider v-if="store.inputtedLayerInfos.length > 0">
       <el-button @click="letSymmetric">关于此处上下对称</el-button>
     </n-divider>
-
-    <div class="layer-amount-display" v-if="store.inputtedLayerInfos.length>2">共{{ store.inputtedLayerInfos.length }}层</div>
   </div>
 </template>
 
@@ -139,10 +144,18 @@ function letSymmetric() {
   margin-right: 15px;
 }
 
-.layer-attribute-input-inner-part {
+.layer-attribute-input-outer-part {
   width: 100%;
   display: flex;
   flex-direction: column;
+}
+
+.layer-attribute-input-inner-part {
+  display: flex;
+}
+
+.n-input-number {
+  flex: 0 0 50%;
 }
 
 .input-number-suffix-div {

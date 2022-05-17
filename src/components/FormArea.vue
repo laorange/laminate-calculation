@@ -2,6 +2,7 @@
 import {useStore} from "../../store/store";
 import LayerAttributeInput from "./LayerAttributeInput.vue";
 import {Odometer} from "@element-plus/icons-vue";
+import LaminateDiagram from "./LaminateDiagram.vue";
 
 const store = useStore()
 </script>
@@ -12,6 +13,8 @@ const store = useStore()
     <div class="number-input-area">
       <layer-attribute-input/>
     </div>
+
+    <laminate-diagram/>
 
     <n-progress type="circle" :percentage="store.dataCompletionDegree" v-show="store.inputtedLayerInfos.length>0">
       <div style="display: flex; flex-direction: column; justify-content: center">
@@ -27,6 +30,7 @@ const store = useStore()
         {{ store.whetherCanSubmit ? "开始计算" : "在开始计算前，需要先在上方补全所有需要填写的数据" }}
       </el-button>
     </div>
+
   </div>
 </template>
 
