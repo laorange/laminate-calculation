@@ -1,71 +1,115 @@
 <script setup lang="ts">
-import {ref, watch} from "vue";
 import {useStore} from "../../store/store";
+import {InputtedLayerInfo} from "../../types/types";
 
 const store = useStore()
 
-interface DynamicInputValue {
-  thickness: number | null,
-  theta: number | null,
-}
-
-const dynamicInputValues = ref<DynamicInputValue[]>([]);
-
-function createDynamicInputValue(): DynamicInputValue {
-  const lastLayer = dynamicInputValues.value[dynamicInputValues.value.length - 1]
+function createDynamicInputValue(): InputtedLayerInfo {
+  const lastLayer = store.inputtedLayerInfos[store.inputtedLayerInfos.length - 1]
   return {
-    thickness: lastLayer?.thickness ?? null,
+    E_l: lastLayer?.E_l ?? null,
+    E_t: lastLayer?.E_t ?? null,
+    nu_lt: lastLayer?.nu_lt ?? null,
+    G_lt: lastLayer?.G_lt ?? null,
     theta: lastLayer?.theta ?? null,
+    thickness: lastLayer?.thickness ?? null,
   }
 }
 
-watch(() => dynamicInputValues, () => {
-  store.inputted.theta_list = dynamicInputValues.value.map(v => v.theta)
-  store.inputted.thickness_list = dynamicInputValues.value.map(v => v.thickness)
-}, {deep: true})
-
-function thicknessValidator(thickness: number) {
-  return thickness > 0
+const validators = {
+  thicknessValidator(thickness: number) {
+    return thickness > 0
+  },
+  thetaValidator(theta: number) {
+    return theta <= 360 && theta >= -360
+  }
 }
 
-function thetaValidator(theta: number) {
-  return theta <= 360 && theta >= -360
-}
 </script>
 
 <template>
   <div class="layer-attribute-input">
-    <n-dynamic-input v-model:value="dynamicInputValues" :on-create="createDynamicInputValue">
+    <div class="add-layer-info" v-if="store.inputtedLayerInfos.length===1">
+      <div style="flex: 1">&nbsp;</div>
+      <div style="font-size: 16px">想要再加一层板？请在填完下方的数据后，点击这里 ↓</div>
+    </div>
+
+    <n-dynamic-input v-model:value="store.inputtedLayerInfos" :on-create="createDynamicInputValue">
       <template #create-button-default>
         点击此处来为这个复合材料加第一层板
       </template>
       <template #default="{ value }">
-        <div style="display: flex; align-items: center; width: 100%">
-          <n-input-number
-              v-model:value="value.thickness"
-              :validator="thicknessValidator"
-              style="flex: 1"
-              placeholder="该层的厚度">
-            <template #suffix>mm</template>
-          </n-input-number>
+        <div class="layer-attribute-input-inner-part">
 
           <n-input-number
               v-model:value="value.theta"
-              :validator="thetaValidator"
+              :validator="validators.thetaValidator"
               style="flex: 1"
-              placeholder="纤维方向角 θ">
-            <template #suffix>°</template>
+              placeholder="纤维方向角 (角度制)">
+            <template #prefix>
+              <vue-latex expression="\theta"/>
+            </template>
+            <template #suffix>
+              <div class="input-number-suffix-div">°</div>
+            </template>
           </n-input-number>
+
+          <n-input-number v-model:value="value.E_l" placeholder="平行于纤维方向的杨氏模量 | Module d’élasticité longitudinal">
+            <template #prefix>
+              <vue-latex expression="E_l"/>
+            </template>
+            <template #suffix>
+              <div class="input-number-suffix-div">MPa</div>
+            </template>
+          </n-input-number>
+
+          <n-input-number v-model:value="value.E_t" placeholder="垂直于纤维方向的杨氏模量 | Module d’élasticité transversal">
+            <template #prefix>
+              <vue-latex expression="E_t"/>
+            </template>
+            <template #suffix>
+              <div class="input-number-suffix-div">MPa</div>
+            </template>
+          </n-input-number>
+
+          <n-input-number v-model:value="value.G_lt" placeholder="剪切模量 | Module de cisaillement">
+            <template #prefix>
+              <vue-latex expression="G_{lt}"/>
+            </template>
+            <template #suffix>
+              <div class="input-number-suffix-div">MPa</div>
+            </template>
+          </n-input-number>
+
+          <n-input-number v-model:value="value.nu_lt" placeholder="泊松比 | Coefficients de Poisson">
+            <template #prefix>
+              <vue-latex expression="\nu_{lt}"/>
+            </template>
+            <template #suffix>
+              <div class="input-number-suffix-div">&nbsp;</div>
+            </template>
+          </n-input-number>
+
+          <n-input-number
+              v-model:value="value.thickness"
+              :validator="validators.thicknessValidator"
+              style="flex: 1"
+              placeholder="该层的厚度 (如果它不重要，那就填1)">
+            <template #prefix>
+              <vue-latex expression="e"/>
+            </template>
+            <template #suffix>
+              <div class="input-number-suffix-div">mm</div>
+            </template>
+          </n-input-number>
+
+          <n-divider/>
         </div>
+
       </template>
     </n-dynamic-input>
 
-    <div class="add-layer-info" v-if="dynamicInputValues.length===1">
-      <div style="flex: 1">&nbsp;</div>
-      <div>想要再加一层板？请点击这里 ↑</div>
-    </div>
-
-    <div class="layer-amount-display" v-if="dynamicInputValues.length>2">共{{ dynamicInputValues.length }}层</div>
+    <div class="layer-amount-display" v-if="store.inputtedLayerInfos.length>2">共{{ store.inputtedLayerInfos.length }}层</div>
   </div>
 </template>
 
@@ -83,5 +127,15 @@ function thetaValidator(theta: number) {
 .add-layer-info {
   display: flex;
   margin-right: 15px;
+}
+
+.layer-attribute-input-inner-part {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-number-suffix-div {
+  width: 35px;
 }
 </style>

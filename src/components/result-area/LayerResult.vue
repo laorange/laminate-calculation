@@ -27,13 +27,13 @@ defineProps<{ layer: Layer }>()
       <vue-latex :expression="tex.formula.souplesse_equation_lt"/>
     </div>
     <div class="result-block">
-      <vue-latex :expression="`\\mathrm{souplesse\\ matrix}_{lt} = ${tex.matrix33(layer.souplesse_matrix_on_coordinate_L_T)}`"/>
+      <vue-latex :expression="`柔度矩阵\\mathrm{souplesse\\ matrix}_{lt} = ${tex.matrix33(layer.souplesse_matrix_on_coordinate_L_T)}`"/>
     </div>
     <div class="result-block">
       <vue-latex :expression="tex.formula.souplesse_equation_xy"/>
     </div>
     <div class="result-block">
-      <vue-latex :expression="`\\mathrm{souplesse\\ matrix}_{xy} = ${tex.matrix33(layer.souplesse_matrix_on_coordinate_X_Y)}`"/>
+      <vue-latex :expression="`柔度矩阵\\mathrm{souplesse\\ matrix}_{xy} = ${tex.matrix33(layer.souplesse_matrix_on_coordinate_X_Y)}`"/>
     </div>
 
     <n-divider/>
@@ -42,13 +42,13 @@ defineProps<{ layer: Layer }>()
       <vue-latex :expression="tex.formula.raideur_equation_lt"/>
     </div>
     <div class="result-block">
-      <vue-latex :expression="`\\mathrm{raideur\\ matrix}_{lt} = ${tex.matrix33(layer.raideur_matrix_on_coordinate_L_T)}`"/>
+      <vue-latex :expression="`刚度矩阵\\mathrm{raideur\\ matrix}_{lt} = ${tex.matrix33(layer.raideur_matrix_on_coordinate_L_T)}`"/>
     </div>
     <div class="result-block">
       <vue-latex :expression="tex.formula.raideur_equation_xy"/>
     </div>
     <div class="result-block">
-      <vue-latex :expression="`\\mathrm{raideur\\ matrix}_{xy} = ${tex.matrix33(layer.raideur_matrix_on_coordinate_X_Y)}`"/>
+      <vue-latex :expression="`刚度矩阵\\mathrm{raideur\\ matrix}_{xy}\\ (\\bar{E}) = ${tex.matrix33(layer.raideur_matrix_on_coordinate_X_Y)}`"/>
     </div>
 
   </div>

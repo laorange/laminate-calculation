@@ -21,7 +21,16 @@ defineProps<{ laminate: Laminate | undefined }>()
     <n-divider/>
 
     <div class="result-block">
+      <vue-latex :expression="`${tex.formula.B_ij}`"/>
+    </div>
+    <div class="result-block">
       <vue-latex :expression="`B = ${tex.matrix33(laminate?.B)}`"/>
+    </div>
+
+    <n-divider/>
+
+    <div class="result-block">
+      <vue-latex :expression="`${tex.formula.C_ij}`"/>
     </div>
     <div class="result-block">
       <vue-latex :expression="`C = ${tex.matrix33(laminate?.C)}`"/>
