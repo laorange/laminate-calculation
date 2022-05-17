@@ -18,7 +18,13 @@ graph LR
 	运行后台 --> 按后台提示访问指定网址 --> 输入数据 --> 开始计算 --> 结束
 ```
 
+## 截图
 
+![1.png](demo/demo1.png)
+
+![2.png](demo/demo2.png)
+
+![3.png](demo/demo3.png)
 
 ## 后端输出示例
 
