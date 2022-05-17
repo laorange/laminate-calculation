@@ -60,7 +60,10 @@ function thetaValidator(theta: number) {
       </template>
     </n-dynamic-input>
 
-    <div class="add-layer-info" v-if="dynamicInputValues.length===1">想要再加一层板？请点击这里 ↑</div>
+    <div class="add-layer-info" v-if="dynamicInputValues.length===1">
+      <div style="flex: 1">&nbsp;</div>
+      <div>想要再加一层板？请点击这里 ↑</div>
+    </div>
 
     <div class="layer-amount-display" v-if="dynamicInputValues.length>2">共{{ dynamicInputValues.length }}层</div>
   </div>
@@ -78,7 +81,7 @@ function thetaValidator(theta: number) {
 }
 
 .add-layer-info {
-  align-self: end;
+  display: flex;
   margin-right: 15px;
 }
 </style>
