@@ -25,6 +25,12 @@ const validators = {
   }
 }
 
+
+function letSymmetric() {
+  const copiedInputtedLayerInfos = JSON.parse(JSON.stringify(store.inputtedLayerInfos)) as InputtedLayerInfo[]
+  copiedInputtedLayerInfos.reverse()
+  store.inputtedLayerInfos = store.inputtedLayerInfos.concat(copiedInputtedLayerInfos)
+}
 </script>
 
 <template>
@@ -108,6 +114,10 @@ const validators = {
 
       </template>
     </n-dynamic-input>
+
+    <n-divider v-if="store.inputtedLayerInfos.length > 0">
+      <el-button @click="letSymmetric">关于此处上下对称</el-button>
+    </n-divider>
 
     <div class="layer-amount-display" v-if="store.inputtedLayerInfos.length>2">共{{ store.inputtedLayerInfos.length }}层</div>
   </div>
