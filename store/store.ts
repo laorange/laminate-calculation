@@ -81,8 +81,13 @@ export const useStore = defineStore('store', {
             axios.post("http://localhost:8000/", postData).then(
                 response => {
                     try {
-                        this.result = response.data as Laminate
-                        this.collapseActiveName = "result"
+                        if (response.data.startsWith("Traceback")) {
+                            this.errorMessage = `${response.data}`
+                            this.collapseActiveName = "error"
+                        }else {
+                            this.result = response.data as Laminate;
+                            this.collapseActiveName = "result"
+                        }
                     } catch (e) {
                         this.errorMessage = `${e}`
                         this.collapseActiveName = "error"
