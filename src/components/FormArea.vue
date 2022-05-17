@@ -14,7 +14,7 @@ const store = useStore()
       <layer-attribute-input/>
     </div>
 
-    <laminate-diagram/>
+    <laminate-diagram v-show="store.inputtedLayerInfos.length>1"/>
 
     <n-progress type="circle" :percentage="store.dataCompletionDegree" v-show="store.inputtedLayerInfos.length>0">
       <div style="display: flex; flex-direction: column; justify-content: center">
