@@ -4,6 +4,7 @@ import axios from "axios";
 
 
 type State = {
+    isLoading: boolean,
     collapseActiveName: "input" | "result" | "error",
     errorMessage: string,
     inputted: {
@@ -20,6 +21,7 @@ type State = {
 export const useStore = defineStore('store', {
     state(): State {
         return {
+            isLoading: false,
             collapseActiveName: "input",
             errorMessage: "",
             inputted: {
@@ -53,6 +55,7 @@ export const useStore = defineStore('store', {
     },
     actions: {
         submitToGetResult() {
+            this.isLoading = true
             this.errorMessage = ""  // 清除原有错误信息
             console.log("submitToGetResult")
             let postData = {
@@ -79,7 +82,7 @@ export const useStore = defineStore('store', {
                     this.errorMessage = `${error}`
                     this.collapseActiveName = "error"
                 },
-            )
+            ).finally(() => this.isLoading = false);
         },
     },
 })

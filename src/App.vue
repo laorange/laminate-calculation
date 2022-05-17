@@ -7,6 +7,7 @@ import ResultArea from "./components/result-area/ResultArea.vue";
 
 import {useStore} from "../store/store";
 import FooterArea from "./components/FooterArea.vue";
+import LoadingMask from "./components/LoadingMask.vue";
 
 const store = useStore()
 </script>
@@ -29,6 +30,8 @@ const store = useStore()
   </el-collapse>
 
   <footer-area/>
+
+  <loading-mask :value="store.isLoading"/>
 </template>
 
 <style>

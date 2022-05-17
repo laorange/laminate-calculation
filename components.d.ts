@@ -16,6 +16,7 @@ declare module '@vue/runtime-core' {
     LaminateResult: typeof import('./src/components/result-area/LaminateResult.vue')['default']
     LayerAttributeInput: typeof import('./src/components/LayerAttributeInput.vue')['default']
     LayerResult: typeof import('./src/components/result-area/LayerResult.vue')['default']
+    LoadingMask: typeof import('./src/components/LoadingMask.vue')['default']
     NDivider: typeof import('naive-ui')['NDivider']
     NDynamicInput: typeof import('naive-ui')['NDynamicInput']
     NInputNumber: typeof import('naive-ui')['NInputNumber']
