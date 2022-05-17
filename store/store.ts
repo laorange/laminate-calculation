@@ -81,7 +81,7 @@ export const useStore = defineStore('store', {
             axios.post("http://localhost:8000/", postData).then(
                 response => {
                     try {
-                        if (response.data.startsWith("Traceback")) {
+                        if (`${response.data}`.startsWith("Traceback")) {
                             this.errorMessage = `${response.data}`
                             this.collapseActiveName = "error"
                         }else {
