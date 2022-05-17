@@ -4,6 +4,12 @@
 
 项目地址：[GitHub](https://github.com/laorange/LaminateCalculation)  |  [Gitee](https://gitee.com/laorange/LaminateCalculation)
 
++ 前端使用: ts+vue3，
+  + 组件库: [ElementPlus](https://element-plus.org), [NaiveUi](https://www.naiveui.com/), [VantUi ](https://vant-contrib.gitee.io/vant/#/zh-CN/home)三者都有用
+  + 显示公式用的是 [Vatex](https://github.com/Shimada666/VaTex)
+  + pinia, axios 等常用库
++ 后端使用: python，毕竟是科学计算，numpy 基本跑不了；Flask 开个简单的后端 ( Django 在此处就显得太笨重了...)
+
 ## 快速开始
 
 ```mermaid
@@ -22,7 +28,11 @@ graph LR
 
 ![1.png](demo/demo1.png)
 
+----
+
 ![2.png](demo/demo2.png)
+
+----
 
 ![3.png](demo/demo3.png)
 
