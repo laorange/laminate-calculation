@@ -23,7 +23,7 @@ const store = useStore()
       </div>
     </n-progress>
 
-    <div class="button-area">
+    <div class="button-area" v-show="store.inputtedLayerInfos.length>0">
       <el-button type="primary" :icon="Odometer"
                  :disabled="!store.whetherCanSubmit"
                  @click="store.submitToGetResult">

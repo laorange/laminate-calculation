@@ -24,6 +24,24 @@ graph LR
 	运行后台 --> 按后台提示访问指定网址 --> 输入数据 --> 开始计算 --> 结束
 ```
 
+## 运行流程
+
+```mermaid
+sequenceDiagram
+	participant 用户
+	participant 前端
+    participant 后端
+    用户->>后端: 启动服务
+    后端->>用户: 在`http://localhost:8000/`静候佳音
+    用户->>前端: 访问`http://localhost:8000/`<br/>并填写层合板参数信息
+    前端->>后端: 提交信息
+    后端->>后端: 计算层合板的属性
+    后端->>前端: 返回计算结果
+    前端->>用户: 将结果渲染为用户可读的界面
+```
+
+
+
 ## 截图
 
 ![1.png](demo/demo1.png)
