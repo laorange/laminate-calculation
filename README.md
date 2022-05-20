@@ -54,6 +54,24 @@ sequenceDiagram
 
 ![3.png](demo/demo3.png)
 
+## 可能出现的问题
+
+### ⚠ 电脑名中包含中文名时不能正常启动后台
+
+> 怎么解决？
+
+> 参考：https://blog.51cto.com/u_15127683/3322904
+
+#### 打开控制面板，点击“系统”
+
+![sys](demo/sys.png)
+
+#### 打开“关于”
+
+![about](demo/about.png)
+
+![pc-name](demo/pc-name.png)
+
 ## 后端输出示例
 
 ```javascript
