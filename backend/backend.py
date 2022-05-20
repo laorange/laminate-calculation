@@ -39,5 +39,11 @@ def hello_world():
 
 
 if __name__ == '__main__':
-    app.run(port=8000)
-    # app.run(host="0.0.0.0", port=80)
+    try:
+        app.run(port=8000)
+        # app.run(host="0.0.0.0", port=80)
+    except UnicodeDecodeError:
+        print("非常抱歉，您的电脑名中包含ASCII码不能解析的字符(例如中文字符)，请在“控制面板-系统-关于”中修改电脑名为纯英文后重试。因为需要在本机开启后台，为您带来的不便，还请谅解！")
+    except:
+        import traceback
+        print(traceback.format_exc())
