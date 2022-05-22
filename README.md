@@ -12,6 +12,8 @@
 
 ## 快速开始
 
+视频介绍：[https://www.bilibili.com/video/BV1nv4y1A7N1](https://www.bilibili.com/video/BV1nv4y1A7N1)
+
 ```mermaid
 graph LR
 	开始(开始)
