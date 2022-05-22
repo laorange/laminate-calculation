@@ -1,7 +1,7 @@
 {
   "name": "laminate-calculation",
   "private": true,
-  "version": "2.0.0",
+  "version": "2.1.2",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build --base=./",

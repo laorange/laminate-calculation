@@ -72,7 +72,23 @@ sequenceDiagram
 
 ![pc-name](demo/pc-name.png)
 
-## 后端输出示例
+---
+
+#### 其他方式
+
+当然，如果因各种原因使电脑名称无法更改，您也可以直接修改 `backend/laminate.py` 中的参数来使用。
+
+```mermaid
+sequenceDiagram
+	participant 用户
+    participant 后端
+	participant 前端
+    用户->>后端: 修改层合板参数
+    后端->>后端: 计算层合板的属性
+    后端->>用户: 返回计算结果
+```
+
+这是 `laminate.py` 的输出示例：
 
 ```javascript
 {
