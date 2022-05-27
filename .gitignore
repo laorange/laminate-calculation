@@ -158,7 +158,6 @@ dist-ssr
 output/
 bilibili_video/
 exe/
-assets/
 *.exe
 /reference/
 test.py
