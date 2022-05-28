@@ -8,11 +8,11 @@
 
 在线访问：[GitHub Page](https://laorange.github.io/LaminateCalculation/)  |  [Gitee Page](https://laorange.gitee.io/laminatecalculation/)
 
-安装包下载(用于离线使用)：[Releases](/laorange/LaminateCalculation/releases)
+安装包下载(用于离线使用)：[Releases](https://github.com/laorange/LaminateCalculation/releases)
 
 ## 更新日志
 
-截至目前，本项目共有三个阶段，各阶段以[分支](/laorange/LaminateCalculation/branches)的形式保留：
+截至目前，本项目共有三个阶段，各阶段以[分支](https://github.com/laorange/LaminateCalculation/branches)的形式保留：
 
 1. 完全使用 `python` 输入、计算、输出，可查看 `v1.x ` 分支
 2. 沿用 `v1.x ` 的 `laminate.py`，`v2.x` 使用 `flask` 做后端；使用 `ts+vue3` 做前端
