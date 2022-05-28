@@ -21,10 +21,10 @@ func main() {
 	http.Handle("/", http.FileServer(http.FS(dist)))
 
 	// windows
-	exec.Command(`cmd`, `/c`, `start`, `http://127.0.0.1:`+PORT+"/static/").Start()
+	exec.Command(`cmd`, `/c`, `start`, `http://127.0.0.1:`+PORT+"/dist/").Start()
 
 	// mac
-	exec.Command(`open`, `http://127.0.0.1:`+PORT+"/static/").Start()
+	// exec.Command(`open`, `http://127.0.0.1:`+PORT+"/dist/").Start()
 
 	http.ListenAndServe(":"+PORT, nil)
 }
