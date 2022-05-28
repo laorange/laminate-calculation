@@ -1,6 +1,6 @@
 import {defineStore} from "pinia";
 import {InputtedLayerInfo, Laminate} from "../types/types";
-import axios from "axios";
+import {CalculativeLaminate} from "../src/assets/ts/laminate";
 
 
 type State = {
@@ -48,37 +48,15 @@ export const useStore = defineStore('store', {
     },
     actions: {
         submitToGetResult() {
-            this.isLoading = true
             this.errorMessage = ""  // 清除原有错误信息
             console.log("submitToGetResult")
-            let postData = {
-                layerInfoList: JSON.stringify(this.inputtedLayerInfos)
+            try {
+                this.result = new CalculativeLaminate(this.inputtedLayerInfos)
+                this.collapseActiveName = "result"
+            } catch (e) {
+                this.errorMessage = `${e}`
+                this.collapseActiveName = "error"
             }
-            axios("http://localhost:8000/", {
-                method: "POST",
-                data: postData
-            }).then(
-                response => {
-                    try {
-                        if (`${response.data}`.startsWith("Traceback")) {
-                            this.errorMessage = `${response.data}`
-                            this.collapseActiveName = "error"
-                        } else {
-                            this.result = response.data as Laminate;
-                            this.collapseActiveName = "result"
-                        }
-                    } catch (e) {
-                        this.errorMessage = `${e}`
-                        this.collapseActiveName = "error"
-                    } finally {
-                        console.log("response", response)
-                    }
-                },
-                error => {
-                    this.errorMessage = `${error}`
-                    this.collapseActiveName = "error"
-                },
-            ).finally(() => this.isLoading = false);
         },
     },
 })
