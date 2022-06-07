@@ -122,8 +122,8 @@ function letSymmetric() {
       </template>
     </n-dynamic-input>
 
-    <n-divider v-if="store.inputtedLayerInfos.length > 0">
-      <el-button @click="letSymmetric">关于此处上下对称</el-button>
+    <n-divider v-if="store.inputtedLayerInfos.length > 1">
+      <el-button @click="letSymmetric">需要上下对称？点击此处</el-button>
     </n-divider>
   </div>
 </template>
