@@ -11,7 +11,6 @@ declare module '@vue/runtime-core' {
     LaminateResult: typeof import('./src/components/result-area/LaminateResult.vue')['default']
     LayerAttributeInput: typeof import('./src/components/LayerAttributeInput.vue')['default']
     LayerResult: typeof import('./src/components/result-area/LayerResult.vue')['default']
-    LoadingMask: typeof import('./src/components/LoadingMask.vue')['default']
     NButton: typeof import('naive-ui')['NButton']
     NCollapse: typeof import('naive-ui')['NCollapse']
     NCollapseItem: typeof import('naive-ui')['NCollapseItem']
@@ -20,8 +19,6 @@ declare module '@vue/runtime-core' {
     NInputNumber: typeof import('naive-ui')['NInputNumber']
     NProgress: typeof import('naive-ui')['NProgress']
     ResultArea: typeof import('./src/components/result-area/ResultArea.vue')['default']
-    RouterLink: typeof import('vue-router')['RouterLink']
-    RouterView: typeof import('vue-router')['RouterView']
     VanTab: typeof import('vant/es')['Tab']
     VanTabs: typeof import('vant/es')['Tabs']
   }

@@ -8,12 +8,14 @@ specifiers:
   mathjs: ^10.6.4
   naive-ui: ^2.34.2
   pinia: ^2.0.27
+  rollup: ^3.6.0
   typescript: ^4.9.3
   unplugin-auto-import: ^0.7.2
   unplugin-vue-components: ^0.19.9
   vant: ^3.6.10
   vatex: ^0.1.0
   vite: ^3.2.5
+  vite-plugin-singlefile: ^0.13.1
   vue: ^3.2.45
   vue-tsc: ^0.34.17
 
@@ -24,6 +26,7 @@ dependencies:
   mathjs: 10.6.4
   naive-ui: 2.34.2_vue@3.2.45
   pinia: 2.0.27_mgnvym7yiazkylwwogi5r767ue
+  rollup: 3.6.0
   vant: 3.6.10_vue@3.2.45
   vatex: 0.1.0_katex@0.15.6+vue@3.2.45
   vue: 3.2.45
@@ -31,9 +34,10 @@ dependencies:
 devDependencies:
   '@vitejs/plugin-vue': 2.3.4_vite@3.2.5+vue@3.2.45
   typescript: 4.9.3
-  unplugin-auto-import: 0.7.2_vite@3.2.5
-  unplugin-vue-components: 0.19.9_vite@3.2.5+vue@3.2.45
+  unplugin-auto-import: 0.7.2_rollup@3.6.0+vite@3.2.5
+  unplugin-vue-components: 0.19.9_ykbeldcmvkodnmxt4osf37h574
   vite: 3.2.5
+  vite-plugin-singlefile: 0.13.1_rollup@3.6.0+vite@3.2.5
   vue-tsc: 0.34.17_typescript@4.9.3
 
 packages:
@@ -701,7 +705,6 @@ packages:
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
     requiresBuild: true
-    dev: true
     optional: true
 
   /function-bind/1.1.1:
@@ -956,6 +959,13 @@ packages:
       fsevents: 2.3.2
     dev: true
 
+  /rollup/3.6.0:
+    resolution: {integrity: sha512-qCgiBeSu2/AIOKWGFMiRkjPlGlcVwxAjwpGKQZOQYng+83Hip4PjrWHm7EQX1wnrvRqfTytEihRRfLHdX+hR4g==}
+    engines: {node: '>=14.18.0', npm: '>=8.0.0'}
+    hasBin: true
+    optionalDependencies:
+      fsevents: 2.3.2
+
   /run-parallel/1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
     dependencies:
@@ -1016,7 +1026,7 @@ packages:
     engines: {node: '>=4.2.0'}
     hasBin: true
 
-  /unplugin-auto-import/0.7.2_vite@3.2.5:
+  /unplugin-auto-import/0.7.2_rollup@3.6.0+vite@3.2.5:
     resolution: {integrity: sha512-VzaYUa2VByUT70WSFlOXoovyWuwC/8ePKQUC9fhU+BRmvTC7qhCVgChH/NieWMEVgyT+HhacxM+W7xMEOmA+MA==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -1030,7 +1040,7 @@ packages:
       local-pkg: 0.4.2
       magic-string: 0.26.7
       resolve: 1.22.1
-      unplugin: 0.6.3_vite@3.2.5
+      unplugin: 0.6.3_rollup@3.6.0+vite@3.2.5
     transitivePeerDependencies:
       - esbuild
       - rollup
@@ -1038,7 +1048,7 @@ packages:
       - webpack
     dev: true
 
-  /unplugin-vue-components/0.19.9_vite@3.2.5+vue@3.2.45:
+  /unplugin-vue-components/0.19.9_ykbeldcmvkodnmxt4osf37h574:
     resolution: {integrity: sha512-i5mZtg85euPWZrGswFkoa9pf4WjKCP5qOjnwOyg3KOKVzFjnP3osCdrunQMjtoMKehTdz1vV6baZH8bZR4PNgg==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -1060,7 +1070,7 @@ packages:
       magic-string: 0.26.7
       minimatch: 5.1.1
       resolve: 1.22.1
-      unplugin: 0.7.2_vite@3.2.5
+      unplugin: 0.7.2_rollup@3.6.0+vite@3.2.5
       vue: 3.2.45
     transitivePeerDependencies:
       - esbuild
@@ -1070,7 +1080,7 @@ packages:
       - webpack
     dev: true
 
-  /unplugin/0.6.3_vite@3.2.5:
+  /unplugin/0.6.3_rollup@3.6.0+vite@3.2.5:
     resolution: {integrity: sha512-CoW88FQfCW/yabVc4bLrjikN9HC8dEvMU4O7B6K2jsYMPK0l6iAnd9dpJwqGcmXJKRCU9vwSsy653qg+RK0G6A==}
     peerDependencies:
       esbuild: '>=0.13'
@@ -1088,12 +1098,13 @@ packages:
         optional: true
     dependencies:
       chokidar: 3.5.3
+      rollup: 3.6.0
       vite: 3.2.5
       webpack-sources: 3.2.3
       webpack-virtual-modules: 0.4.6
     dev: true
 
-  /unplugin/0.7.2_vite@3.2.5:
+  /unplugin/0.7.2_rollup@3.6.0+vite@3.2.5:
     resolution: {integrity: sha512-m7thX4jP8l5sETpLdUASoDOGOcHaOVtgNyrYlToyQUvILUtEzEnngRBrHnAX3IKqooJVmXpoa/CwQ/QqzvGaHQ==}
     peerDependencies:
       esbuild: '>=0.13'
@@ -1112,6 +1123,7 @@ packages:
     dependencies:
       acorn: 8.8.1
       chokidar: 3.5.3
+      rollup: 3.6.0
       vite: 3.2.5
       webpack-sources: 3.2.3
       webpack-virtual-modules: 0.4.6
@@ -1151,6 +1163,18 @@ packages:
       evtd: 0.2.4
       vue: 3.2.45
     dev: false
+
+  /vite-plugin-singlefile/0.13.1_rollup@3.6.0+vite@3.2.5:
+    resolution: {integrity: sha512-JS4pHPIEAdRtHPi1Aw4ro2KuzpSNR9R/7dFIgrOBwRSVIgbqtskTAidNm3bzlISf6VfGBYvkT+IOl4eJHYQ+lQ==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    peerDependencies:
+      rollup: ^3.2.5
+      vite: ^3.2.3
+    dependencies:
+      micromatch: 4.0.5
+      rollup: 3.6.0
+      vite: 3.2.5
+    dev: true
 
   /vite/3.2.5:
     resolution: {integrity: sha512-4mVEpXpSOgrssFZAOmGIr85wPHKvaDAcXqxVxVRZhljkJOMZi1ibLibzjLHzJvcok8BMguLc7g1W6W/GqZbLdQ==}
