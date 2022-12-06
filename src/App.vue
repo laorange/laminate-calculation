@@ -6,32 +6,31 @@ import FormArea from "./components/FormArea.vue";
 import ResultArea from "./components/result-area/ResultArea.vue";
 
 import {useStore} from "./store/store";
-import FooterArea from "./components/FooterArea.vue";
-import LoadingMask from "./components/LoadingMask.vue";
+import CopyrightFooter from "./components/CopyrightFooter.vue";
 
-const store = useStore()
+import packageJson from "../package.json"
+
+const store = useStore();
 </script>
 
 <template>
   <h1>复合材料性能 辅助计算程序</h1>
 
-  <el-collapse v-model="store.collapseActiveName" accordion>
-    <el-collapse-item title="输入信息" name="input">
+  <n-collapse v-model:expanded-names="store.collapseActiveName" accordion>
+    <n-collapse-item title="输入信息" name="input">
       <form-area/>
-    </el-collapse-item>
-    <el-collapse-item title="获取结果" name="result" v-if="store.result">
+    </n-collapse-item>
+    <n-collapse-item title="获取结果" name="result" v-if="store.result">
       <result-area/>
-    </el-collapse-item>
-    <el-collapse-item title="出错了" name="error" v-if="store.errorMessage">
+    </n-collapse-item>
+    <n-collapse-item title="出错了" name="error" v-if="store.errorMessage">
       <div>错误展示区域</div>
       <div>{{ store.errorMessage }}</div>
       <div>提示：请检查是否已经打开后端服务</div>
-    </el-collapse-item>
-  </el-collapse>
+    </n-collapse-item>
+  </n-collapse>
 
-  <footer-area/>
-
-  <loading-mask :value="store.isLoading"/>
+  <CopyrightFooter :project-url="packageJson.homepage"/>
 </template>
 
 <style>
@@ -43,9 +42,5 @@ const store = useStore()
   color: #2c3e50;
   min-height: 90vh;
   margin: 30px;
-}
-
-.el-collapse {
-
 }
 </style>

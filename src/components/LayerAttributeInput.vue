@@ -2,10 +2,10 @@
 import {useStore} from "../store/store";
 import {InputtedLayerInfo} from "../types/types";
 
-const store = useStore()
+const store = useStore();
 
 function createDynamicInputValue(): InputtedLayerInfo {
-  const lastLayer = store.inputtedLayerInfos[store.inputtedLayerInfos.length - 1]
+  const lastLayer = store.inputtedLayerInfos[store.inputtedLayerInfos.length - 1];
   return {
     E_l: lastLayer?.E_l ?? null,
     E_t: lastLayer?.E_t ?? null,
@@ -13,23 +13,23 @@ function createDynamicInputValue(): InputtedLayerInfo {
     G_lt: lastLayer?.G_lt ?? null,
     theta: lastLayer?.theta ?? null,
     thickness: lastLayer?.thickness ?? null,
-  }
+  };
 }
 
 const validators = {
   thicknessValidator(thickness: number) {
-    return thickness > 0
+    return thickness > 0;
   },
   thetaValidator(theta: number) {
-    return theta <= 360 && theta >= -360
-  }
-}
+    return theta <= 360 && theta >= -360;
+  },
+};
 
 
 function letSymmetric() {
-  const copiedInputtedLayerInfos = JSON.parse(JSON.stringify(store.inputtedLayerInfos)) as InputtedLayerInfo[]
-  copiedInputtedLayerInfos.reverse()
-  store.inputtedLayerInfos = store.inputtedLayerInfos.concat(copiedInputtedLayerInfos)
+  const copiedInputtedLayerInfos = JSON.parse(JSON.stringify(store.inputtedLayerInfos)) as InputtedLayerInfo[];
+  copiedInputtedLayerInfos.reverse();
+  store.inputtedLayerInfos = store.inputtedLayerInfos.concat(copiedInputtedLayerInfos);
 }
 </script>
 
@@ -42,7 +42,7 @@ function letSymmetric() {
 
     <n-dynamic-input v-model:value="store.inputtedLayerInfos" :on-create="createDynamicInputValue">
       <template #create-button-default>
-        点击此处来为这个复合材料加第一层板
+        <h2 style="color: red"> 点击此处来添加第一层板 </h2>
       </template>
       <template #default="{ value, index }">
         <div class="layer-attribute-input-outer-part">
@@ -50,6 +50,7 @@ function letSymmetric() {
           <div class="layer-attribute-input-inner-part">
             <n-input-number
                 v-model:value="value.theta"
+                :status="value.theta ? `seccess` : `error`"
                 :validator="validators.thetaValidator"
                 style="flex: 1"
                 placeholder="纤维方向角 (角度制)">
@@ -61,7 +62,9 @@ function letSymmetric() {
               </template>
             </n-input-number>
 
-            <n-input-number v-model:value="value.E_l" placeholder="平行于纤维方向的杨氏模量 | Module d’élasticité longitudinal">
+            <n-input-number v-model:value="value.E_l"
+                            :status="value.E_l ? `seccess` : `error`"
+                            placeholder="平行于纤维方向的杨氏模量 | Module d’élasticité longitudinal">
               <template #prefix>
                 <vue-latex expression="E_l"/>
               </template>
@@ -72,7 +75,9 @@ function letSymmetric() {
           </div>
 
           <div class="layer-attribute-input-inner-part">
-            <n-input-number v-model:value="value.E_t" placeholder="垂直于纤维方向的杨氏模量 | Module d’élasticité transversal">
+            <n-input-number v-model:value="value.E_t"
+                            :status="value.E_t ? `seccess` : `error`"
+                            placeholder="垂直于纤维方向的杨氏模量 | Module d’élasticité transversal">
               <template #prefix>
                 <vue-latex expression="E_t"/>
               </template>
@@ -81,7 +86,9 @@ function letSymmetric() {
               </template>
             </n-input-number>
 
-            <n-input-number v-model:value="value.G_lt" placeholder="剪切模量 | Module de cisaillement">
+            <n-input-number v-model:value="value.G_lt"
+                            :status="value.G_lt ? `seccess` : `error`"
+                            placeholder="剪切模量 | Module de cisaillement">
               <template #prefix>
                 <vue-latex expression="G_{lt}"/>
               </template>
@@ -92,7 +99,9 @@ function letSymmetric() {
           </div>
 
           <div class="layer-attribute-input-inner-part">
-            <n-input-number v-model:value="value.nu_lt" placeholder="泊松比 | Coefficients de Poisson">
+            <n-input-number v-model:value="value.nu_lt"
+                            :status="value.nu_lt ? `seccess` : `error`"
+                            placeholder="泊松比 | Coefficients de Poisson">
               <template #prefix>
                 <vue-latex expression="\nu_{lt}"/>
               </template>
@@ -103,6 +112,7 @@ function letSymmetric() {
 
             <n-input-number
                 v-model:value="value.thickness"
+                :status="value.thickness ? `seccess` : `error`"
                 :validator="validators.thicknessValidator"
                 style="flex: 1"
                 placeholder="该层的厚度 (如果它不重要，那就填1)">
@@ -123,7 +133,7 @@ function letSymmetric() {
     </n-dynamic-input>
 
     <n-divider v-if="store.inputtedLayerInfos.length > 1">
-      <el-button @click="letSymmetric">需要上下对称？点击此处</el-button>
+      <n-button @click="letSymmetric">需要上下对称？点击此处</n-button>
     </n-divider>
   </div>
 </template>

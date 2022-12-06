@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import {useStore} from "../store/store";
 import LayerAttributeInput from "./LayerAttributeInput.vue";
-import {Odometer} from "@element-plus/icons-vue";
 import LaminateDiagram from "./LaminateDiagram.vue";
 
-const store = useStore()
+const store = useStore();
 </script>
 
 <template>
@@ -24,11 +23,7 @@ const store = useStore()
     </n-progress>
 
     <div class="button-area" v-show="store.inputtedLayerInfos.length>0">
-      <el-button type="primary" :icon="Odometer"
-                 :disabled="!store.whetherCanSubmit"
-                 @click="store.submitToGetResult">
-        {{ store.whetherCanSubmit ? "开始计算" : "在开始计算前，需要先在上方补全所有需要填写的数据" }}
-      </el-button>
+      <n-button type="primary" size="large" v-show="store.whetherCanSubmit" @click="store.submitToGetResult">开始计算</n-button>
     </div>
 
   </div>
