@@ -4,7 +4,7 @@
   "author": "laorange",
   "homepage": "https://github.com/laorange/laminate-calculation",
   "license": "AGPL-3.0",
-  "version": "3.0.3",
+  "version": "3.1.0",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build --base=./",
