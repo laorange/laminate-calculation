@@ -1,4 +1,4 @@
-import {Matrix33} from "../types/types";
+import {Matrix33} from "./types/types";
 
 export const tex = {
     formula: {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Layer} from "../../../types/types";
+import {Layer} from "../../types/types";
 import {tex} from "../../latex";
 
 defineProps<{ layer: Layer }>()

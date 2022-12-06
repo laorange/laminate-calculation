@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {useStore} from "../../store/store";
-import {InputtedLayerInfo} from "../../types/types";
+import {useStore} from "../store/store";
+import {InputtedLayerInfo} from "../types/types";
 
 const store = useStore()
 

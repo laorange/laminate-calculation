@@ -2,7 +2,7 @@
 import {ref} from "vue";
 import LaminateResult from "./LaminateResult.vue";
 import LayerResult from "./LayerResult.vue";
-import {useStore} from "../../../store/store";
+import {useStore} from "../../store/store";
 
 const store = useStore()
 

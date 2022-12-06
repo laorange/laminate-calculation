@@ -1,16 +1,19 @@
 <script setup lang="ts">
 import {computed, ref, watch} from "vue";
+
 const props = defineProps({value: Boolean});
 const isLoading = ref(false);
+
 class TimeoutStabilizer {
   // 防抖器
   constructor(executedFunc: () => any, stabilizingTime?: number) {
-    this.executedFunc = executedFunc
-    this.stabilizingTime = stabilizingTime ?? 500
+    this.executedFunc = executedFunc;
+    this.stabilizingTime = stabilizingTime ?? 500;
   }
-  timer: null | NodeJS.Timer = null
-  executedFunc: () => any  // 需要添加防抖的函数
-  stabilizingTime: number  // 防抖的最大间隔时间
+
+  timer: null | number = null;
+  executedFunc: () => any;  // 需要添加防抖的函数
+  stabilizingTime: number;  // 防抖的最大间隔时间
   execute() {
     setTimeout(
         () => {
@@ -21,29 +24,30 @@ class TimeoutStabilizer {
     );
   }
 }
-const isLoadingStabilizer = new TimeoutStabilizer(() => isLoading.value = props.value)  // 同步 props.value 与 本地 isLoading
+
+const isLoadingStabilizer = new TimeoutStabilizer(() => isLoading.value = props.value);  // 同步 props.value 与 本地 isLoading
 watch(() => props.value, (newStatus) => {
   // 没有加载 => 开始加载
   if (isLoading.value === false && newStatus) isLoading.value = newStatus;
   // 正在加载 => 加载完毕
   else if (isLoading.value === true && !newStatus) {
-    isLoadingStabilizer.execute()  // 防抖
+    isLoadingStabilizer.execute();  // 防抖
   }
 }, {immediate: true});
-const ellipsisNum = ref<number>(1)
-const ellipsis = computed<string>(() => new Array(ellipsisNum.value).fill('.').join(''))
-let changeEllipsisNumTimer: null | NodeJS.Timer = null;
+const ellipsisNum = ref<number>(1);
+const ellipsis = computed<string>(() => new Array(ellipsisNum.value).fill(".").join(""));
+let changeEllipsisNumTimer: null | number = null;
 watch(() => isLoading.value, (isLoadingValue) => {
   if (changeEllipsisNumTimer) {
-    clearInterval(changeEllipsisNumTimer)
+    clearInterval(changeEllipsisNumTimer);
   }
   if (isLoadingValue) {
     changeEllipsisNumTimer = setInterval(() => {
-      if (ellipsisNum.value < 3) ellipsisNum.value += 1
-      else ellipsisNum.value = 1
-    }, 333)
+      if (ellipsisNum.value < 3) ellipsisNum.value += 1;
+      else ellipsisNum.value = 1;
+    }, 333);
   }
-}, {immediate: true})
+}, {immediate: true});
 </script>
 
 
@@ -90,6 +94,7 @@ watch(() => isLoading.value, (isLoadingValue) => {
   right: 0;
   z-index: 998
 }
+
 #canvasContainer {
   position: fixed;
   display: flex;
@@ -104,6 +109,7 @@ watch(() => isLoading.value, (isLoadingValue) => {
   align-items: center;
   z-index: 999;
 }
+
 .LoadingContent {
   margin-top: 10px;
 }

@@ -1,4 +1,4 @@
-import {Matrix33, InputtedLayerInfo, Laminate, Layer} from "../../../types/types";
+import {Matrix33, InputtedLayerInfo, Laminate, Layer} from "../../types/types";
 
 import * as math from "mathjs";
 

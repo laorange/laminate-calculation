@@ -1,7 +1,10 @@
 {
   "name": "laminate-calculation",
-  "private": true,
-  "version": "2.1.2",
+  "private": false,
+  "author": "laorange",
+  "homepage": "https://github.com/laorange/laminate-calculation",
+  "license": "AGPL-3.0",
+  "version": "3.0.3",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build --base=./",
@@ -13,24 +16,24 @@
     "@element-plus/icons-vue": "^1.1.4",
     "axios": "^0.27.2",
     "clipboard": "^2.0.11",
-    "dayjs": "^1.11.2",
-    "element-plus": "^2.1.11",
-    "katex": "^0.15.3",
-    "mathjs": "^10.6.0",
-    "naive-ui": "^2.28.4",
-    "pinia": "^2.0.14",
-    "vant": "^3.4.9",
+    "dayjs": "^1.11.6",
+    "element-plus": "^2.2.26",
+    "katex": "^0.15.6",
+    "mathjs": "^10.6.4",
+    "naive-ui": "^2.34.2",
+    "pinia": "^2.0.27",
+    "vant": "^3.6.10",
     "vatex": "^0.1.0",
-    "vue": "^3.2.25",
-    "vue-i18n": "9",
-    "vue-router": "^4.0.15"
+    "vue": "^3.2.45",
+    "vue-i18n": "^9.2.2",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^2.3.1",
-    "typescript": "^4.5.4",
-    "unplugin-auto-import": "^0.7.1",
-    "unplugin-vue-components": "^0.19.3",
-    "vite": "^2.9.7",
-    "vue-tsc": "^0.34.7"
+    "@vitejs/plugin-vue": "^2.3.4",
+    "typescript": "^4.9.3",
+    "unplugin-auto-import": "^0.7.2",
+    "unplugin-vue-components": "^0.19.9",
+    "vite": "^3.2.5",
+    "vue-tsc": "^0.34.17"
   }
 }

@@ -1,6 +1,6 @@
 import {defineStore} from "pinia";
 import {InputtedLayerInfo, Laminate} from "../types/types";
-import {CalculativeLaminate} from "../src/assets/ts/laminate";
+import {CalculativeLaminate} from "../assets/ts/laminate";
 
 
 type State = {

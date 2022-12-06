@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {useStore} from "../../store/store";
+import {useStore} from "../store/store";
 import LayerAttributeInput from "./LayerAttributeInput.vue";
 import {Odometer} from "@element-plus/icons-vue";
 import LaminateDiagram from "./LaminateDiagram.vue";

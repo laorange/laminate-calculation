@@ -5,7 +5,7 @@
 import FormArea from "./components/FormArea.vue";
 import ResultArea from "./components/result-area/ResultArea.vue";
 
-import {useStore} from "../store/store";
+import {useStore} from "./store/store";
 import FooterArea from "./components/FooterArea.vue";
 import LoadingMask from "./components/LoadingMask.vue";
 

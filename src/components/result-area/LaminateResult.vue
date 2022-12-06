@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Laminate} from "../../../types/types";
+import {Laminate} from "../../types/types";
 import {tex} from "../../latex";
 
 defineProps<{ laminate: Laminate | undefined }>()
