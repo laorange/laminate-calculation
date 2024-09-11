@@ -18,4 +18,12 @@ export default defineConfig({
         vue(),
         viteSingleFile(),
     ],
+    server: {
+        port: 51717,
+        strictPort: true,
+        watch: {
+            // 3. tell vite to ignore watching `src-tauri`
+            ignored: ["**/src-tauri/**"],
+        },
+    },
 });

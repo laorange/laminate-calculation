@@ -1,0 +1,75 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
+  "build": {
+    "beforeBuildCommand": "pnpm run build",
+    "beforeDevCommand": "pnpm run dev",
+    "devPath": "http://localhost:51717",
+    "distDir": "../dist"
+  },
+  "package": {
+    "productName": "层合板力学性能计算程序",
+    "version": "4.0.0"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": false
+    },
+    "bundle": {
+      "active": true,
+      "category": "DeveloperTool",
+      "copyright": "",
+      "deb": {
+        "depends": []
+      },
+      "externalBin": [],
+      "icon": [
+        "icons/material.png",
+        "icons/icon.ico"
+      ],
+      "identifier": "laminate-calculation.labcoder.cn",
+      "longDescription": "",
+      "macOS": {
+        "entitlements": null,
+        "exceptionDomain": "",
+        "frameworks": [],
+        "providerShortName": "labcoder.cn",
+        "signingIdentity": null
+      },
+      "resources": [],
+      "shortDescription": "",
+      "targets": [
+        "deb",
+        "nsis",
+        "dmg",
+        "updater"
+      ],
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": "",
+        "nsis": {
+          "languages": [
+            "SimpChinese"
+          ],
+          "displayLanguageSelector": false,
+          "installerIcon": "icons/icon.ico"
+        }
+      }
+    },
+    "security": {
+      "csp": null
+    },
+    "updater": {
+      "active": false
+    },
+    "windows": [
+      {
+        "fullscreen": false,
+        "height": 600,
+        "resizable": true,
+        "title": "层合板力学性能计算程序",
+        "width": 800
+      }
+    ]
+  }
+}
